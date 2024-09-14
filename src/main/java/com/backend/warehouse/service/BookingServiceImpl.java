@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -29,6 +30,7 @@ public class BookingServiceImpl {
 
     @Autowired
     private ItemRepository itemRepository;
+    
 
     private String[] header = {"Name","Type","Quantity","Checkin Date","Checkout Date","Image","Useremail"};
 
@@ -85,4 +87,9 @@ public class BookingServiceImpl {
         }
 
     }
+    
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
+    }
+
 }
