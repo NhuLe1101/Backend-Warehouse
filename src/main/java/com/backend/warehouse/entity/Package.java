@@ -1,6 +1,8 @@
 package com.backend.warehouse.entity;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -51,12 +53,12 @@ public class Package {
 		this.shelf = shelf;
 	}
 
-	public Date getCheckInFromItems() {
+	public LocalDate getCheckInFromItems() {
         return items != null && !items.isEmpty() ? items.get(0).getCheckIn() : null;
     }
 
     // Phương thức để lấy check-out từ các items
-    public Date getCheckOutFromItems() {
+    public LocalDate getCheckOutFromItems() {
         return items != null && !items.isEmpty() ? items.get(0).getCheckOut() : null;
     }
 

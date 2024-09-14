@@ -1,7 +1,7 @@
 package com.backend.warehouse.entity;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "booking")
@@ -12,6 +12,9 @@ public class Booking {
     private Long bookingId;
 
     @Column(nullable = true)
+    private String customerEmail;
+    
+    @Column(nullable = true)
     private String customerName;
     
     @Column(nullable = true)
@@ -19,17 +22,17 @@ public class Booking {
     
     @Column(nullable = true)
     @Temporal(TemporalType.DATE)
-    private Date checkIn;
+    private LocalDate checkIn;
     
     @Column(nullable = true)
     @Temporal(TemporalType.DATE)
-    private Date checkOut;
+    private LocalDate checkOut;
     
     @Column(nullable = true)
     private String delivery;    
     
     @Column(nullable = false)
-    private String excelFile; // Tên hoặc đường dẫn file Excel
+    private String excelFile; 
     
     @Column(nullable = true)
     private String status;
@@ -38,8 +41,9 @@ public class Booking {
     	
     }
     
-	public Booking(String customerName, String numberphone, Date checkIn, Date checkOut, String delivery,
+	public Booking(String customerEmail, String customerName, String numberphone, LocalDate checkIn, LocalDate checkOut, String delivery,
 			String excelFile, String status) {
+		this.customerEmail = customerEmail;
 		this.customerName = customerName;
 		this.numberphone = numberphone;
 		this.checkIn = checkIn;
@@ -57,6 +61,14 @@ public class Booking {
 		this.bookingId = bookingId;
 	}
 
+	public String getCustomerEmail() {
+		return customerEmail;
+	}
+
+	public void setCustomerEmail(String customerEmail) {
+		this.customerEmail = customerEmail;
+	}
+	
 	public String getCustomerName() {
 		return customerName;
 	}
@@ -73,19 +85,19 @@ public class Booking {
 		this.numberphone = numberphone;
 	}
 
-	public Date getCheckIn() {
+	public LocalDate getCheckIn() {
 		return checkIn;
 	}
 
-	public void setCheckIn(Date checkIn) {
+	public void setCheckIn(LocalDate checkIn) {
 		this.checkIn = checkIn;
 	}
 
-	public Date getCheckOut() {
+	public LocalDate getCheckOut() {
 		return checkOut;
 	}
 
-	public void setCheckOut(Date checkOut) {
+	public void setCheckOut(LocalDate checkOut) {
 		this.checkOut = checkOut;
 	}
 

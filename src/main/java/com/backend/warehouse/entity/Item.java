@@ -1,7 +1,8 @@
 package com.backend.warehouse.entity;
 
 import jakarta.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "items")
@@ -42,30 +43,68 @@ public class Item {
 	@ManyToOne
 	@JoinColumn(name = "bookingId")
 	private Booking booking; // Booking mà Product liên quan
+	
+	@Column(nullable = false)
+    private LocalDate checkin;
+	@Column(nullable = false)
+    private LocalDate checkout;
+    @Column(length = 1000)
+    private String image;
+	
+	public Item(Long itemId, String name, int quantity, float weight, String type, Dimension dimension,
+			Position position, Package aPackage, Shelf shelf, Booking booking, LocalDate checkin, LocalDate checkout,
+			String image) {
+		super();
+		this.itemId = itemId;
+		this.name = name;//
+		this.quantity = quantity;//
+		this.weight = weight;
+		this.type = type;//
+		this.dimension = dimension;
+		this.position = position;
+		this.aPackage = aPackage;
+		this.shelf = shelf;
+		this.booking = booking;//
+		this.checkin = checkin;//
+		this.checkout = checkout;//
+		this.image = image;//
+	}
 
 	public Item() {
 
 	}
 
-	public Item(String name, int quantity, float weight, String type, Dimension dimension, Position position,
-			Package aPackage, Shelf shelf, Booking booking) {
-		this.name = name;
-		this.quantity = quantity;
-		this.weight = weight;
-		this.type = type;
-		this.dimension = dimension;
-		this.position = position;
-		this.aPackage = aPackage;
-		this.shelf = shelf;
-		this.booking = booking;
+
+	public LocalDate getCheckin() {
+		return checkin;
+	}
+
+	public void setCheckin(LocalDate checkin) {
+		this.checkin = checkin;
+	}
+
+	public LocalDate getCheckout() {
+		return checkout;
+	}
+
+	public void setCheckout(LocalDate checkout) {
+		this.checkout = checkout;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	// Method to get check-in and check-out dates from Booking
-	public Date getCheckIn() {
+	public LocalDate getCheckIn() {
 		return booking != null ? booking.getCheckIn() : null;
 	}
 
-	public Date getCheckOut() {
+	public LocalDate getCheckOut() {
 		return booking != null ? booking.getCheckOut() : null;
 	}
 

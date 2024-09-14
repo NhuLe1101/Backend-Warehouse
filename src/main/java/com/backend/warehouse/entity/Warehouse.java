@@ -17,7 +17,7 @@ public class Warehouse {
     @Column(nullable = false)
     private String location;
 
-    @OneToMany(mappedBy = "shelf", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
     private List<Shelf> shelves;
 
     public Warehouse() {
