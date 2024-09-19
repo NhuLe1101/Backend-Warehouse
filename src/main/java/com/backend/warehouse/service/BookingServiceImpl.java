@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -91,5 +92,21 @@ public class BookingServiceImpl {
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
+    
+    public Booking updateBooking(Long id, String status) throws IOException {
+        Booking booking = bookingRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy booking với ID: " + id));
+
+        booking.setStatus(status);
+
+        return bookingRepository.save(booking);
+    }
+
+    public void deleteBooking(Long id) {
+        bookingRepository.deleteById(id);
+    }
+
+
+
 
 }
