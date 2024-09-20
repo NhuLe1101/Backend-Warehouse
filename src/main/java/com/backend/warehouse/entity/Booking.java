@@ -9,7 +9,7 @@ public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bookingId;
+    private Long id;
 
     @Column(nullable = true)
     private String customerEmail;
@@ -54,11 +54,11 @@ public class Booking {
 	}
 
 	public Long getBookingId() {
-		return bookingId;
+		return id;
 	}
 
 	public void setBookingId(Long bookingId) {
-		this.bookingId = bookingId;
+		this.id = bookingId;
 	}
 
 	public String getCustomerEmail() {

@@ -41,7 +41,7 @@ public class Item {
 	private Shelf shelf; // Shelf mà Product đang được đặt
 
 	@ManyToOne
-	@JoinColumn(name = "bookingId")
+	@JoinColumn(name = "booking_id")
 	private Booking booking; // Booking mà Product liên quan
 	
 	@Column(nullable = false)

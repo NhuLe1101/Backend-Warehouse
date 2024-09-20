@@ -17,4 +17,9 @@ public class ItemServiceImpl {
     public List<Item> getAllProducts() {
         return itemRepository.findAll();
     }
+    
+    public void deleteItemsByBookingId(Long bookingId) {
+        itemRepository.deleteByBookingId(bookingId);
+    }
+
 }
