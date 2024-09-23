@@ -24,14 +24,6 @@ public class Item {
 	@Column(nullable = true)
 	private String type;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "dimId", referencedColumnName = "dimId")
-	private Dimension dimension;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "posId", referencedColumnName = "posId")
-	private Position position;
-
 	@ManyToOne
 	@JoinColumn(name = "packageId")
 	private Package aPackage; // Package mà Product thuộc về
@@ -46,66 +38,38 @@ public class Item {
 	
 	@Column(nullable = false)
     private LocalDate checkin;
+	
 	@Column(nullable = false)
     private LocalDate checkout;
+	
+	@Column(nullable = false)
+    private String status;
+	
     @Column(length = 1000)
     private String image;
-	
-	public Item(Long itemId, String name, int quantity, float weight, String type, Dimension dimension,
-			Position position, Package aPackage, Shelf shelf, Booking booking, LocalDate checkin, LocalDate checkout,
-			String image) {
-		super();
-		this.itemId = itemId;
-		this.name = name;//
-		this.quantity = quantity;//
-		this.weight = weight;
-		this.type = type;//
-		this.dimension = dimension;
-		this.position = position;
-		this.aPackage = aPackage;
-		this.shelf = shelf;
-		this.booking = booking;//
-		this.checkin = checkin;//
-		this.checkout = checkout;//
-		this.image = image;//
-	}
+    
+	@Column(nullable = false)
+    private String delivery;
 
 	public Item() {
 
 	}
 
-
-	public LocalDate getCheckin() {
-		return checkin;
-	}
-
-	public void setCheckin(LocalDate checkin) {
+	public Item(String name, int quantity, float weight, String type, Package aPackage, Shelf shelf, Booking booking,
+			LocalDate checkin, LocalDate checkout, String status, String image, String delivery) {
+		super();
+		this.name = name;
+		this.quantity = quantity;
+		this.weight = weight;
+		this.type = type;
+		this.aPackage = aPackage;
+		this.shelf = shelf;
+		this.booking = booking;
 		this.checkin = checkin;
-	}
-
-	public LocalDate getCheckout() {
-		return checkout;
-	}
-
-	public void setCheckout(LocalDate checkout) {
 		this.checkout = checkout;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
+		this.status = status;
 		this.image = image;
-	}
-
-	// Method to get check-in and check-out dates from Booking
-	public LocalDate getCheckIn() {
-		return booking != null ? booking.getCheckIn() : null;
-	}
-
-	public LocalDate getCheckOut() {
-		return booking != null ? booking.getCheckOut() : null;
+		this.delivery = delivery;
 	}
 
 	public Long getItemId() {
@@ -132,6 +96,14 @@ public class Item {
 		this.quantity = quantity;
 	}
 
+	public float getWeight() {
+		return weight;
+	}
+
+	public void setWeight(float weight) {
+		this.weight = weight;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -156,30 +128,6 @@ public class Item {
 		this.shelf = shelf;
 	}
 
-	public float getWeight() {
-		return weight;
-	}
-
-	public void setWeight(float weight) {
-		this.weight = weight;
-	}
-
-	public Dimension getDimension() {
-		return dimension;
-	}
-
-	public void setDimension(Dimension dimension) {
-		this.dimension = dimension;
-	}
-
-	public Position getPosition() {
-		return position;
-	}
-
-	public void setPosition(Position position) {
-		this.position = position;
-	}
-
 	public Booking getBooking() {
 		return booking;
 	}
@@ -187,5 +135,47 @@ public class Item {
 	public void setBooking(Booking booking) {
 		this.booking = booking;
 	}
+
+	public LocalDate getCheckin() {
+		return checkin;
+	}
+
+	public void setCheckin(LocalDate checkin) {
+		this.checkin = checkin;
+	}
+
+	public LocalDate getCheckout() {
+		return checkout;
+	}
+
+	public void setCheckout(LocalDate checkout) {
+		this.checkout = checkout;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(String delivery) {
+		this.delivery = delivery;
+	}
+
+
 
 }
