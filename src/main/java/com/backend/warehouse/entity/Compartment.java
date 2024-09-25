@@ -24,7 +24,7 @@ public class Compartment {
     @Column(nullable = false)
     private String nameComp;
 	
-    @OneToMany(mappedBy = "aPackage", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "compartment", cascade = CascadeType.ALL)
     private List<Item> items;
 
     @OneToOne(cascade = CascadeType.ALL)

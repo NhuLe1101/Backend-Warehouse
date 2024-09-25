@@ -20,7 +20,7 @@ public class Shelf {
     @JoinColumn(name = "posId", referencedColumnName = "posId")
     private Position position;
 
-    @OneToMany(mappedBy = "compartment", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "compId", cascade = CascadeType.ALL)
     private List<Compartment> compartments;
 
     @ManyToOne

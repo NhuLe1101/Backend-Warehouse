@@ -25,8 +25,8 @@ public class Item {
 	private String type;
 
 	@ManyToOne
-	@JoinColumn(name = "packageId")
-	private Package aPackage; // Package mà Product thuộc về
+	@JoinColumn(name = "comId")
+	private Compartment compartment; // Compartment mà Product thuộc về
 
 	@ManyToOne
 	@JoinColumn(name = "shelfId")
@@ -55,14 +55,14 @@ public class Item {
 
 	}
 
-	public Item(String name, int quantity, float weight, String type, Package aPackage, Shelf shelf, Booking booking,
+	public Item(String name, int quantity, float weight, String type, Compartment compartment, Shelf shelf, Booking booking,
 			LocalDate checkin, LocalDate checkout, String status, String image, String delivery) {
 		super();
 		this.name = name;
 		this.quantity = quantity;
 		this.weight = weight;
 		this.type = type;
-		this.aPackage = aPackage;
+		this.compartment = compartment;
 		this.shelf = shelf;
 		this.booking = booking;
 		this.checkin = checkin;
@@ -112,12 +112,12 @@ public class Item {
 		this.type = type;
 	}
 
-	public Package getaPackage() {
-		return aPackage;
+	public Compartment getCompartment() {
+		return compartment;
 	}
 
-	public void setaPackage(Package aPackage) {
-		this.aPackage = aPackage;
+	public void setCompartment(Compartment compartment) {
+		this.compartment = compartment;
 	}
 
 	public Shelf getShelf() {
