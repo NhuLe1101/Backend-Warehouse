@@ -39,11 +39,23 @@ public class BookingController {
     @Autowired
     private ItemServiceImpl itemService;
 
-    @PostMapping("/upload")
-    public ResponseEntity<Booking> saveData(@RequestBody Booking booking) {
-        Booking savedBooking = bookingService.saveData(booking);
-        return new ResponseEntity<>(savedBooking, HttpStatus.CREATED);
-    }
+  @PostMapping("/upload")
+  public ResponseEntity<?> uploadFormData(
+      @RequestParam("file") MultipartFile file
+  ) {
+      try {
+          bookingService.saveFormData("null", "null", "null", file);
+          return ResponseEntity.ok(new MessageResponse("Dữ liệu đã được lưu thành công!"));
+      } catch (IOException e) {
+          return ResponseEntity
+              .status(500) 
+              .body(new MessageResponse("Có lỗi xảy ra khi lưu dữ liệu: " + e.getMessage()));
+      } catch (Exception e) {
+          return ResponseEntity
+              .status(400) 
+              .body(new MessageResponse("Dữ liệu không hợp lệ: " + e.getMessage()));
+      }
+  }
     
     @GetMapping("/all")
     public ResponseEntity<List<Booking>> getAllBookings() {
