@@ -24,8 +24,12 @@ public class Compartment {
     @Column(nullable = false)
     private String nameComp;
 	
-    @OneToMany(mappedBy = "compartment", cascade = CascadeType.ALL)
-    private List<Item> items;
+//    @OneToMany(mappedBy = "compartment", cascade = CascadeType.ALL)
+//    private List<Item> items;
+    
+    @ManyToOne
+    @JoinColumn(name = "item_id")
+    private Item item; // Một Compartment chỉ chứa một loại Item
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "posId", referencedColumnName = "posId")
@@ -36,6 +40,8 @@ public class Compartment {
     private String side;
     
     private boolean hasItem;
+    
+    private long itemQuantity;
     
     @ManyToOne
     @JoinColumn(name = "bookingId")
@@ -48,21 +54,39 @@ public class Compartment {
     public Compartment() {
     	
     }
-	public Compartment(String nameComp, List<Item> items, Position position, int layerIndex, String side,
-			boolean hasItem, Booking booking, Shelf shelf) {
+//	public Compartment(String nameComp, List<Item> items, Position position, int layerIndex, String side,
+//			boolean hasItem, Booking booking, Shelf shelf) {
+//		super();
+//		this.nameComp = nameComp;
+//		this.items = items;
+//		this.position = position;
+//		this.layerIndex = layerIndex;
+//		this.side = side;
+//		this.hasItem = hasItem;
+//		this.booking = booking;
+//		this.shelf = shelf;
+//	}
+    
+
+	public Compartment(String nameComp, Item item, Position position, int layerIndex, String side, boolean hasItem,
+			int itemQuantity, Booking booking, Shelf shelf) {
 		super();
 		this.nameComp = nameComp;
-		this.items = items;
+		this.item = item;
 		this.position = position;
 		this.layerIndex = layerIndex;
 		this.side = side;
 		this.hasItem = hasItem;
+		this.itemQuantity = itemQuantity;
 		this.booking = booking;
 		this.shelf = shelf;
 	}
+    
+    
 	public Long getCompId() {
 		return compId;
 	}
+	
 	public void setCompId(Long compId) {
 		this.compId = compId;
 	}
@@ -72,15 +96,25 @@ public class Compartment {
 	public void setNameComp(String nameComp) {
 		this.nameComp = nameComp;
 	}
-	public List<Item> getItems() {
-		return items;
-	}
-	public void setItems(List<Item> items) {
-		this.items = items;
-	}
+//	public List<Item> getItems() {
+//		return items;
+//	}
+//	public void setItems(List<Item> items) {
+//		this.items = items;
+//	}
+	
+	
 	public Position getPosition() {
 		return position;
 	}
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
+
 	public void setPosition(Position position) {
 		this.position = position;
 	}
@@ -113,6 +147,14 @@ public class Compartment {
 	}
 	public void setShelf(Shelf shelf) {
 		this.shelf = shelf;
+	}
+
+	public long getItemQuantity() {
+		return itemQuantity;
+	}
+
+	public void setItemQuantity(long itemQuantity) {
+		this.itemQuantity = itemQuantity;
 	}
 
 	

@@ -1,10 +1,14 @@
 package com.backend.warehouse.service;
 
 import com.backend.warehouse.entity.Booking;
+import com.backend.warehouse.entity.Item;
 import com.backend.warehouse.repository.BookingRepository;
+import com.backend.warehouse.repository.ItemRepository;
 
 import io.jsonwebtoken.io.IOException;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,6 +17,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +29,11 @@ public class BookingServiceImpl {
 
     @Autowired
     private BookingRepository bookingRepository;
+    
+	  @Autowired
+	  private ItemRepository itemRepository;
+    
+    private String[] header = {"Name","Type","Quantity","Weight (g)","Checkin Date","Checkout Date","Image", "Useremail"};
     
     private final String uploadDir = "uploads/";
 
@@ -57,8 +69,31 @@ public class BookingServiceImpl {
 	  booking.setCustomerName(fullName);
 	  booking.setExcelFile(filePath.toString());
 	  
-	  bookingRepository.save(booking);
+	  Booking savedBooking = bookingRepository.save(booking);
 	  System.out.println("File đã được lưu vào: " + filePath.toString());
+	  
+    if (file != null && !file.isEmpty()) {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.builder().setHeader(header).setSkipHeaderRecord(true).build())) {
+         
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        for (CSVRecord csvRecord : csvParser) {
+            Item item = new Item();
+            item.setName(csvRecord.get("Name"));
+            item.setType(csvRecord.get("Type"));
+            item.setQuantity(Integer.parseInt(csvRecord.get("Quantity").replace(".", "")));
+            item.setWeight(Float.parseFloat(csvRecord.get("Weight (g)").replace(".", "")));
+            item.setCheckin(LocalDate.parse(csvRecord.get("Checkin Date"), formatter));
+            item.setCheckout(LocalDate.parse(csvRecord.get("Checkout Date"), formatter));
+            item.setImage(null);
+            item.setBooking(savedBooking);
+            item.setShelf(null);
+            item.setStatus("Đang lưu kho");
+            item.setDelivery(null);
+            itemRepository.save(item);
+        }
+    }
+}
 	
 	}
     
