@@ -24,10 +24,9 @@ public class Item {
 
 	@Column(nullable = true)
 	private String type;
-	
-	@OneToMany
-	@JoinColumn(name = "compId")
-	private List<Compartment> compartment; // Compartment(s) that Product belongs to
+
+	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+	private List<Compartment> compartments; // Compartment(s) that Product belongs to
 
 	@ManyToOne
 	@JoinColumn(name = "shelfId")
@@ -36,34 +35,33 @@ public class Item {
 	@ManyToOne
 	@JoinColumn(name = "booking_id")
 	private Booking booking; // Booking mà Product liên quan
-	
+
 	@Column(nullable = false)
-    private LocalDate checkin;
-	
+	private LocalDate checkin;
+
 	@Column(nullable = false)
-    private LocalDate checkout;
-	
+	private LocalDate checkout;
+
 	@Column(nullable = false)
-    private String status;
-	
-    @Column(nullable = true , length = 1000)
-    private String image;
-    
+	private String status;
+
+	@Column(nullable = true, length = 1000)
+	private String image;
+
 	@Column(nullable = true)
-    private String delivery;
+	private String delivery;
 
 	public Item() {
 
 	}
-	
 
-	public Item(String name, int quantity, float weight, String type, List<Compartment> compartment, Shelf shelf,
+	public Item(String name, int quantity, float weight, String type, List<Compartment> compartments, Shelf shelf,
 			Booking booking, LocalDate checkin, LocalDate checkout, String status, String image, String delivery) {
 		this.name = name;
 		this.quantity = quantity;
 		this.weight = weight;
 		this.type = type;
-		this.compartment = compartment;
+		this.compartments = compartments;
 		this.shelf = shelf;
 		this.booking = booking;
 		this.checkin = checkin;
@@ -72,7 +70,6 @@ public class Item {
 		this.image = image;
 		this.delivery = delivery;
 	}
-
 
 	public Long getItemId() {
 		return itemId;
@@ -114,12 +111,12 @@ public class Item {
 		this.type = type;
 	}
 
-	public List<Compartment> getCompartment() {
-		return compartment;
+	public List<Compartment> getCompartments() {
+		return compartments;
 	}
 
-	public void setCompartment(List<Compartment> compartment) {
-		this.compartment = compartment;
+	public void setCompartments(List<Compartment> compartments) {
+		this.compartments = compartments;
 	}
 
 	public Shelf getShelf() {
@@ -177,5 +174,5 @@ public class Item {
 	public void setDelivery(String delivery) {
 		this.delivery = delivery;
 	}
-	
+
 }

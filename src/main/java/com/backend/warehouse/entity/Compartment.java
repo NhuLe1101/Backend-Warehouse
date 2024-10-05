@@ -13,54 +13,43 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "compartment")
 public class Compartment {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long compId;
-   
-    @Column(nullable = false)
-    private String nameComp;
-	
-    @OneToMany(mappedBy = "compartment", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Item> items;
-    
-    @Column(nullable = false)  // Thêm annotation để lưu tầng của ngăn
-    private int layerIndex;  // Tầng của ngăn
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long compId;
 
-    @Column(nullable = false)  // Thêm annotation để lưu trạng thái có item hay không
-    private boolean hasItem; // Trạng thái có item hay không
-    
-    @ManyToOne
-    @JoinColumn(name = "bookingId")
-    private Booking booking;
-    
-    @ManyToOne
-    @JoinColumn(name = "shelfId")
-    private Shelf shelf;
+	@Column(nullable = false)
+	private String nameComp;
 
-    public Compartment() {
-    	
-    }
-    
-    
+	@ManyToOne
+	@JoinColumn(name = "item_id")
+	private Item item;
 
-	public Compartment(String nameComp, List<Item> items, int layerIndex, boolean hasItem, Booking booking,
-			Shelf shelf) {
-		this.nameComp = nameComp;
-		this.items = items;
-		this.layerIndex = layerIndex;
-		this.hasItem = hasItem;
-		this.booking = booking;
-		this.shelf = shelf;
+	@Column(nullable = false) // Thêm annotation để lưu tầng của ngăn
+	private int layerIndex; // Tầng của ngăn
+
+	@Column(nullable = false) // Thêm annotation để lưu trạng thái có item hay không
+	private boolean hasItem; // Trạng thái có item hay không
+
+	@ManyToOne
+	@JoinColumn(name = "shelfId")
+	private Shelf shelf;
+
+	public Compartment() {
+
 	}
 
-
+	public Compartment(String nameComp, Item item, int layerIndex, boolean hasItem, Shelf shelf) {
+		this.nameComp = nameComp;
+		this.item = item;
+		this.layerIndex = layerIndex;
+		this.hasItem = hasItem;
+		this.shelf = shelf;
+	}
 
 	public Long getCompId() {
 		return compId;
@@ -78,12 +67,12 @@ public class Compartment {
 		this.nameComp = nameComp;
 	}
 
-	public List<Item> getItems() {
-		return items;
+	public Item getItem() {
+		return item;
 	}
 
-	public void setItems(List<Item> items) {
-		this.items = items;
+	public void setItem(Item item) {
+		this.item = item;
 	}
 
 	public int getLayerIndex() {
@@ -102,14 +91,6 @@ public class Compartment {
 		this.hasItem = hasItem;
 	}
 
-	public Booking getBooking() {
-		return booking;
-	}
-
-	public void setBooking(Booking booking) {
-		this.booking = booking;
-	}
-
 	public Shelf getShelf() {
 		return shelf;
 	}
@@ -118,6 +99,4 @@ public class Compartment {
 		this.shelf = shelf;
 	}
 
-	
-    
 }
