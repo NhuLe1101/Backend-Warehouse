@@ -64,11 +64,11 @@ public class BookingServiceImpl {
         booking.setCustomerEmail(email);
         booking.setNumberphone(phoneNumber);
         booking.setCustomerName(fullName);
-        booking.setDelivery(delivery);
+//        booking.setDelivery(delivery);
         booking.setExcelFile(filePath.toString());
-        booking.setStatus(status);
-        booking.setCheckIn(checkin);
-        booking.setCheckOut(checkout);
+//        booking.setStatus(status);
+//        booking.setCheckIn(checkin);
+//        booking.setCheckOut(checkout);
         
         Booking savedBooking = bookingRepository.save(booking);
 
@@ -88,9 +88,9 @@ public class BookingServiceImpl {
                     item.setCheckout(LocalDate.parse(csvRecord.get("Checkout Date"), formatter));
                     item.setImage(csvRecord.get("Image"));
                     item.setBooking(savedBooking);
-                    item.setaPackage(null);
-                    item.setDimension(null);
-                    item.setPosition(null);
+//                    item.setaPackage(null);
+//                    item.setDimension(null);
+//                    item.setPosition(null);
                     item.setShelf(null);
                     item.setWeight(0);
                     itemRepository.save(item);
@@ -111,8 +111,8 @@ public class BookingServiceImpl {
         booking.setCustomerEmail(email);
         booking.setNumberphone(phoneNumber);
         booking.setCustomerName(fullName);
-        booking.setDelivery(delivery);
-        booking.setStatus(status);
+//        booking.setDelivery(delivery);
+//        booking.setStatus(status);
 
         return bookingRepository.save(booking);
     }

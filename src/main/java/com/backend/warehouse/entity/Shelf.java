@@ -3,6 +3,8 @@ package com.backend.warehouse.entity;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Shelf")
 public class Shelf {
@@ -20,7 +22,8 @@ public class Shelf {
     @JoinColumn(name = "posId", referencedColumnName = "posId")
     private Position position;
 
-    @OneToMany(mappedBy = "compartment", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shelf", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Compartment> compartments;
 
     @ManyToOne
@@ -33,7 +36,6 @@ public class Shelf {
 
 	public Shelf(String nameShelf, String type, Position position, List<Compartment> compartments,
 			Warehouse warehouse) {
-		super();
 		this.nameShelf = nameShelf;
 		this.type = type;
 		this.position = position;

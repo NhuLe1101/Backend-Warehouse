@@ -1,6 +1,8 @@
 package com.backend.warehouse.entity;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 
@@ -17,7 +19,8 @@ public class Warehouse {
     @Column(nullable = false)
     private String location;
 
-    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "warehouse", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Shelf> shelves;
 
     public Warehouse() {

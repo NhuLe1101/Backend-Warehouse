@@ -64,6 +64,9 @@ public class WebSecurityConfig {
 	        .authorizeHttpRequests(auth -> 
 	          auth.requestMatchers("/api/booking/**").permitAll()
 	          	  .requestMatchers("/api/product/**").permitAll()
+	              .requestMatchers("/api/compartments/**").permitAll()
+	          	  .requestMatchers("/api/shelf/**").permitAll()
+	          	  .requestMatchers("/api/warehouse/**").permitAll()
 	              .requestMatchers("/api/auth/**").permitAll()
 	              .anyRequest().authenticated()
 	        );

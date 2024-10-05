@@ -2,6 +2,8 @@ package com.backend.warehouse.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,22 +26,15 @@ public class Compartment {
     @Column(nullable = false)
     private String nameComp;
 	
-    @OneToMany(mappedBy = "aPackage", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "compartment", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Item> items;
+    
+    @Column(nullable = false)  // Thêm annotation để lưu tầng của ngăn
+    private int layerIndex;  // Tầng của ngăn
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "posId", referencedColumnName = "posId")
-    private Position position;
-    
-    private int layerIndex;
-    
-    private String side;
-    
-    private boolean hasItem;
-    
-    @ManyToOne
-    @JoinColumn(name = "bookingId")
-    private Booking booking;
+    @Column(nullable = false)  // Thêm annotation để lưu trạng thái có item hay không
+    private boolean hasItem; // Trạng thái có item hay không
     
     @ManyToOne
     @JoinColumn(name = "shelfId")
@@ -48,69 +43,60 @@ public class Compartment {
     public Compartment() {
     	
     }
-	public Compartment(String nameComp, List<Item> items, Position position, int layerIndex, String side,
-			boolean hasItem, Booking booking, Shelf shelf) {
-		super();
+	
+	public Compartment(String nameComp, List<Item> items, int layerIndex, boolean hasItem,
+			Shelf shelf) {
 		this.nameComp = nameComp;
 		this.items = items;
-		this.position = position;
 		this.layerIndex = layerIndex;
-		this.side = side;
 		this.hasItem = hasItem;
-		this.booking = booking;
 		this.shelf = shelf;
 	}
+
 	public Long getCompId() {
 		return compId;
 	}
+
 	public void setCompId(Long compId) {
 		this.compId = compId;
 	}
+
 	public String getNameComp() {
 		return nameComp;
 	}
+
 	public void setNameComp(String nameComp) {
 		this.nameComp = nameComp;
 	}
+
 	public List<Item> getItems() {
 		return items;
 	}
+
 	public void setItems(List<Item> items) {
 		this.items = items;
 	}
-	public Position getPosition() {
-		return position;
-	}
-	public void setPosition(Position position) {
-		this.position = position;
-	}
+
 	public int getLayerIndex() {
 		return layerIndex;
 	}
+
 	public void setLayerIndex(int layerIndex) {
 		this.layerIndex = layerIndex;
 	}
-	public String getSide() {
-		return side;
-	}
-	public void setSide(String side) {
-		this.side = side;
-	}
+
 	public boolean isHasItem() {
 		return hasItem;
 	}
+
 	public void setHasItem(boolean hasItem) {
 		this.hasItem = hasItem;
 	}
-	public Booking getBooking() {
-		return booking;
-	}
-	public void setBooking(Booking booking) {
-		this.booking = booking;
-	}
+
 	public Shelf getShelf() {
 		return shelf;
 	}
+
 	public void setShelf(Shelf shelf) {
 		this.shelf = shelf;
 	}

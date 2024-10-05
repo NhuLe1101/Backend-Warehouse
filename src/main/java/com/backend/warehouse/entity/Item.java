@@ -25,8 +25,8 @@ public class Item {
 	private String type;
 
 	@ManyToOne
-	@JoinColumn(name = "packageId")
-	private Package aPackage; // Package mà Product thuộc về
+	@JoinColumn(name = "compId")
+	private Compartment compartment; // compartment mà Product thuộc về
 
 	@ManyToOne
 	@JoinColumn(name = "shelfId")
@@ -55,14 +55,14 @@ public class Item {
 
 	}
 
-	public Item(String name, int quantity, float weight, String type, Package aPackage, Shelf shelf, Booking booking,
-			LocalDate checkin, LocalDate checkout, String status, String image, String delivery) {
-		super();
+
+	public Item(String name, int quantity, float weight, String type, Compartment compartment, Shelf shelf,
+			Booking booking, LocalDate checkin, LocalDate checkout, String status, String image, String delivery) {
 		this.name = name;
 		this.quantity = quantity;
 		this.weight = weight;
 		this.type = type;
-		this.aPackage = aPackage;
+		this.compartment = compartment;
 		this.shelf = shelf;
 		this.booking = booking;
 		this.checkin = checkin;
@@ -72,105 +72,131 @@ public class Item {
 		this.delivery = delivery;
 	}
 
+
 	public Long getItemId() {
 		return itemId;
 	}
+
 
 	public void setItemId(Long itemId) {
 		this.itemId = itemId;
 	}
 
+
 	public String getName() {
 		return name;
 	}
+
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
+
 	public int getQuantity() {
 		return quantity;
 	}
+
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
+
 	public float getWeight() {
 		return weight;
 	}
+
 
 	public void setWeight(float weight) {
 		this.weight = weight;
 	}
 
+
 	public String getType() {
 		return type;
 	}
+
 
 	public void setType(String type) {
 		this.type = type;
 	}
 
-	public Package getaPackage() {
-		return aPackage;
+
+	public Compartment getCompartment() {
+		return compartment;
 	}
 
-	public void setaPackage(Package aPackage) {
-		this.aPackage = aPackage;
+
+	public void setCompartment(Compartment compartment) {
+		this.compartment = compartment;
 	}
+
 
 	public Shelf getShelf() {
 		return shelf;
 	}
 
+
 	public void setShelf(Shelf shelf) {
 		this.shelf = shelf;
 	}
+
 
 	public Booking getBooking() {
 		return booking;
 	}
 
+
 	public void setBooking(Booking booking) {
 		this.booking = booking;
 	}
+
 
 	public LocalDate getCheckin() {
 		return checkin;
 	}
 
+
 	public void setCheckin(LocalDate checkin) {
 		this.checkin = checkin;
 	}
+
 
 	public LocalDate getCheckout() {
 		return checkout;
 	}
 
+
 	public void setCheckout(LocalDate checkout) {
 		this.checkout = checkout;
 	}
+
 
 	public String getStatus() {
 		return status;
 	}
 
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
 
 	public String getImage() {
 		return image;
 	}
 
+
 	public void setImage(String image) {
 		this.image = image;
 	}
 
+
 	public String getDelivery() {
 		return delivery;
 	}
+
 
 	public void setDelivery(String delivery) {
 		this.delivery = delivery;
