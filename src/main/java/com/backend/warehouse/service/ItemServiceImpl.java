@@ -76,14 +76,14 @@ public class ItemServiceImpl {
 			   .orElseThrow(() -> new Exception("Không tìm thấy Compartment với ID: " + compartmentId));
 			
 			// Set quantity cho compartment
-			compartment.setItemQuantity(quantityItem);
+//			compartment.setItemQuantity(quantityItem);
 			
 			// Thêm compartment đã cập nhật vào danh sách
 			updatedCompartments.add(compartment);
 			}
 			
 			// Cập nhật compartments cho item
-			item.setCompartments(updatedCompartments);
+//			item.setCompartments(updatedCompartments);
 			
 			// Lưu item đã chỉnh sửa vào database
 			return itemRepository.save(item);

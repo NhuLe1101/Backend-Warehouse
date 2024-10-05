@@ -1,4 +1,5 @@
 package com.backend.warehouse.controller;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -33,35 +34,29 @@ import com.backend.warehouse.service.ItemServiceImpl;
 @RequestMapping("/api/booking")
 public class BookingController {
 
-    @Autowired
-    private BookingServiceImpl bookingService;
-    
-    @Autowired
-    private ItemServiceImpl itemService;
+	@Autowired
+	private BookingServiceImpl bookingService;
 
-  @PostMapping("/upload")
-  public ResponseEntity<?> uploadFormData(
-      @RequestParam("file") MultipartFile file
-  ) {
-      try {
-          bookingService.saveFormData("null", "null", "null", file);
-          return ResponseEntity.ok(new MessageResponse("Dữ liệu đã được lưu thành công!"));
-      } catch (IOException e) {
-          return ResponseEntity
-              .status(500) 
-              .body(new MessageResponse("Có lỗi xảy ra khi lưu dữ liệu: " + e.getMessage()));
-      } catch (Exception e) {
-          return ResponseEntity
-              .status(400) 
-              .body(new MessageResponse("Dữ liệu không hợp lệ: " + e.getMessage()));
-      }
-  }
-    
-    @GetMapping("/all")
-    public ResponseEntity<List<Booking>> getAllBookings() {
-        List<Booking> bookings = bookingService.getAllBookings();
-        return ResponseEntity.ok(bookings);
-    }
+	@Autowired
+	private ItemServiceImpl itemService;
 
+	@PostMapping("/upload")
+	public ResponseEntity<?> uploadFormData(@RequestParam("file") MultipartFile file) {
+		try {
+			bookingService.saveFormData("null", "null", "null", file);
+			return ResponseEntity.ok(new MessageResponse("Dữ liệu đã được lưu thành công!"));
+		} catch (IOException e) {
+			return ResponseEntity.status(500)
+					.body(new MessageResponse("Có lỗi xảy ra khi lưu dữ liệu: " + e.getMessage()));
+		} catch (Exception e) {
+			return ResponseEntity.status(400).body(new MessageResponse("Dữ liệu không hợp lệ: " + e.getMessage()));
+		}
+	}
+
+	@GetMapping("/all")
+	public ResponseEntity<List<Booking>> getAllBookings() {
+		List<Booking> bookings = bookingService.getAllBookings();
+		return ResponseEntity.ok(bookings);
+	}
 
 }

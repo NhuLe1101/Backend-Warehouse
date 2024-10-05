@@ -22,12 +22,8 @@ public class Shelf {
     @JoinColumn(name = "posId", referencedColumnName = "posId")
     private Position position;
 
-<<<<<<< HEAD
     @OneToMany(mappedBy = "shelf", cascade = CascadeType.ALL)
     @JsonIgnore
-=======
-    @OneToMany(mappedBy = "compId", cascade = CascadeType.ALL)
->>>>>>> 7b0c69fb58efb5ea36755c34c9ad768737707b71
     private List<Compartment> compartments;
 
     @ManyToOne
