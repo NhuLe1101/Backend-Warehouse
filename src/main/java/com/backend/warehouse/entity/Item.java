@@ -3,6 +3,7 @@ package com.backend.warehouse.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "items")
@@ -24,9 +25,20 @@ public class Item {
 	@Column(nullable = true)
 	private String type;
 
+<<<<<<< HEAD
 	@ManyToOne
 	@JoinColumn(name = "compId")
 	private Compartment compartment; // compartment mà Product thuộc về
+=======
+//	@ManyToOne
+//	@JoinColumn(name = "comId")
+//	private Compartment compartment; // Compartment mà Product thuộc về
+	
+	@OneToMany
+	@JoinColumn(name = "comId")
+	private List<Compartment> compartments; // Compartment(s) that Product belongs to
+
+>>>>>>> 7b0c69fb58efb5ea36755c34c9ad768737707b71
 
 	@ManyToOne
 	@JoinColumn(name = "shelfId")
@@ -45,16 +57,17 @@ public class Item {
 	@Column(nullable = false)
     private String status;
 	
-    @Column(length = 1000)
+    @Column(nullable = true , length = 1000)
     private String image;
     
-	@Column(nullable = false)
+	@Column(nullable = true)
     private String delivery;
 
 	public Item() {
 
 	}
 
+<<<<<<< HEAD
 
 	public Item(String name, int quantity, float weight, String type, Compartment compartment, Shelf shelf,
 			Booking booking, LocalDate checkin, LocalDate checkout, String status, String image, String delivery) {
@@ -71,12 +84,51 @@ public class Item {
 		this.image = image;
 		this.delivery = delivery;
 	}
+=======
+//	public Item(String name, int quantity, float weight, String type, Compartment compartment, Shelf shelf, Booking booking,
+//			LocalDate checkin, LocalDate checkout, String status, String image, String delivery) {
+//		super();
+//		this.name = name;
+//		this.quantity = quantity;
+//		this.weight = weight;
+//		this.type = type;
+//		this.compartment = compartment;
+//		this.shelf = shelf;
+//		this.booking = booking;
+//		this.checkin = checkin;
+//		this.checkout = checkout;
+//		this.status = status;
+//		this.image = image;
+//		this.delivery = delivery;
+//	}
+	
+	
+>>>>>>> 7b0c69fb58efb5ea36755c34c9ad768737707b71
 
 
 	public Long getItemId() {
 		return itemId;
 	}
 
+<<<<<<< HEAD
+=======
+	public Item(String name, int quantity, float weight, String type, List<Compartment> compartments, Shelf shelf,
+		Booking booking, LocalDate checkin, LocalDate checkout, String status, String image, String delivery) {
+	super();
+	this.name = name;
+	this.quantity = quantity;
+	this.weight = weight;
+	this.type = type;
+	this.compartments = compartments;
+	this.shelf = shelf;
+	this.booking = booking;
+	this.checkin = checkin;
+	this.checkout = checkout;
+	this.status = status;
+	this.image = image;
+	this.delivery = delivery;
+}
+>>>>>>> 7b0c69fb58efb5ea36755c34c9ad768737707b71
 
 	public void setItemId(Long itemId) {
 		this.itemId = itemId;
@@ -122,6 +174,7 @@ public class Item {
 		this.type = type;
 	}
 
+<<<<<<< HEAD
 
 	public Compartment getCompartment() {
 		return compartment;
@@ -133,6 +186,24 @@ public class Item {
 	}
 
 
+=======
+//	public Compartment getCompartment() {
+//		return compartment;
+//	}
+//
+//	public void setCompartment(Compartment compartment) {
+//		this.compartment = compartment;
+//	}
+
+	public List<Compartment> getCompartments() {
+		return compartments;
+	}
+
+	public void setCompartments(List<Compartment> compartments) {
+		this.compartments = compartments;
+	}	
+	
+>>>>>>> 7b0c69fb58efb5ea36755c34c9ad768737707b71
 	public Shelf getShelf() {
 		return shelf;
 	}
