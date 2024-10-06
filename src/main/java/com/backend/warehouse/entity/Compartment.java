@@ -32,6 +32,9 @@ public class Compartment {
 	@Column(nullable = false) // Thêm annotation để lưu tầng của ngăn
 	private int layerIndex; // Tầng của ngăn
 
+	@Column(nullable = false)
+	private int side; // (1: left, 2: mid, 3: right)
+
 	@Column(nullable = false) // Thêm annotation để lưu trạng thái có item hay không
 	private boolean hasItem; // Trạng thái có item hay không
 
@@ -43,10 +46,12 @@ public class Compartment {
 
 	}
 
-	public Compartment(String nameComp, Item item, int layerIndex, boolean hasItem, Shelf shelf) {
+	public Compartment(String nameComp, Item item, int layerIndex, int side, boolean hasItem, Shelf shelf) {
+		super();
 		this.nameComp = nameComp;
 		this.item = item;
 		this.layerIndex = layerIndex;
+		this.side = side;
 		this.hasItem = hasItem;
 		this.shelf = shelf;
 	}
@@ -81,6 +86,14 @@ public class Compartment {
 
 	public void setLayerIndex(int layerIndex) {
 		this.layerIndex = layerIndex;
+	}
+
+	public int getSide() {
+		return side;
+	}
+
+	public void setSide(int side) {
+		this.side = side;
 	}
 
 	public boolean isHasItem() {
