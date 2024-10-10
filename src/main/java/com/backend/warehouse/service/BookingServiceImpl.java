@@ -33,13 +33,11 @@ public class BookingServiceImpl {
 	@Autowired
 	private ItemRepository itemRepository;
 
-	private String[] header = { "Name", "Type", "Quantity", "Weight (g)", "Checkin Date", "Checkout Date", "Image",
-			"Useremail" };
+	private String[] header = { "Name", "Type", "Quantity", "Weight (g)", "Checkin Date", "Checkout Date", "Image", "Useremail" };
 
 	private final String uploadDir = "uploads/";
 
-	public void saveFormData(String email, String phoneNumber, String fullName, String delivery, MultipartFile file,
-			String status, LocalDate checkin, LocalDate checkout) throws IOException, java.io.IOException {
+	public void saveFormData(MultipartFile file) throws IOException, java.io.IOException {
 		Path uploadPath = Paths.get(uploadDir);
 		if (!Files.exists(uploadPath)) {
 			Files.createDirectories(uploadPath);
@@ -62,14 +60,20 @@ public class BookingServiceImpl {
 		Files.copy(file.getInputStream(), filePath);
 
 		Booking booking = new Booking();
-		booking.setCustomerEmail(email);
-		booking.setNumberphone(phoneNumber);
-		booking.setCustomerName(fullName);
-//        booking.setDelivery(delivery);
 		booking.setExcelFile(filePath.toString());
-//        booking.setStatus(status);
-//        booking.setCheckIn(checkin);
-//        booking.setCheckOut(checkout);
+		
+		if (file != null && !file.isEmpty()) {
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+					CSVParser csvParser = new CSVParser(reader,
+							CSVFormat.DEFAULT.builder().setHeader(header).setSkipHeaderRecord(true).build())) {
+
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				for (CSVRecord csvRecord : csvParser) {
+					booking.setCustomerEmail(csvRecord.get("Useremail"));
+				}
+			}
+		}
+
 
 		Booking savedBooking = bookingRepository.save(booking);
 
@@ -90,11 +94,11 @@ public class BookingServiceImpl {
 					item.setCheckout(LocalDate.parse(csvRecord.get("Checkout Date"), formatter));
 					item.setImage(csvRecord.get("Image"));
 					item.setBooking(savedBooking);
-//                    item.setaPackage(null);
-//                    item.setDimension(null);
-//                    item.setPosition(null);
 					item.setShelf(null);
-					item.setWeight(0);
+					item.setWeight(Float.parseFloat(csvRecord.get("Weight (g)").replace(".", "")));
+					item.setCompartments(null);
+					item.setDelivery(null);
+					item.setStatus("Đang lưu kho");
 					itemRepository.save(item);
 				}
 			}
@@ -105,19 +109,6 @@ public class BookingServiceImpl {
 		return bookingRepository.findAll();
 	}
 
-//	public Booking updateBooking(Long id, String email, String phoneNumber, String fullName, String delivery , String status) throws IOException {
-//        Booking booking = bookingRepository.findById(id)
-//            .orElseThrow(() -> new RuntimeException("Không tìm thấy booking với ID: " + id));
-//        
-//        booking.setCustomerEmail(email);
-//        booking.setNumberphone(phoneNumber);
-//        booking.setCustomerName(fullName);
-//        booking.setDelivery(delivery);
-//        booking.setStatus(status);
-
-	public Booking saveData(Booking booking) {
-		return bookingRepository.save(booking);
-	}
 
 	Path uploadPath = Paths.get(uploadDir);
 
