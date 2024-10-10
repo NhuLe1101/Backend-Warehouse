@@ -43,7 +43,7 @@ public class BookingController {
 	@PostMapping("/upload")
 	public ResponseEntity<?> uploadFormData(@RequestParam("file") MultipartFile file) {
 		try {
-//			bookingService.saveFormData("null", "null", "null", file);
+			bookingService.saveFormData("null", "null", "null", file);
 			return ResponseEntity.ok(new MessageResponse("Dữ liệu đã được lưu thành công!"));
 		} catch (IOException e) {
 			return ResponseEntity.status(500)

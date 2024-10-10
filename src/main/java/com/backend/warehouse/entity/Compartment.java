@@ -26,8 +26,9 @@ public class Compartment {
 	private String nameComp;
 
 	@ManyToOne
-	@JoinColumn(name = "item_id")
-	private Item item;
+    @JoinColumn(name = "item_id")
+    @JsonIgnore  // Sử dụng @JsonIgnore để bỏ qua trường compartments
+    private Item item;
 
 	@Column(nullable = false) // Thêm annotation để lưu tầng của ngăn
 	private int layerIndex; // Tầng của ngăn
@@ -41,19 +42,23 @@ public class Compartment {
 	@ManyToOne
 	@JoinColumn(name = "shelfId")
 	private Shelf shelf;
+	
+    @Column(nullable = false)
+    private int quantity;
 
 	public Compartment() {
 
 	}
 
-	public Compartment(String nameComp, Item item, int layerIndex, int side, boolean hasItem, Shelf shelf) {
-		super();
+	public Compartment(String nameComp, Item item, int layerIndex, int side, boolean hasItem, Shelf shelf,
+			int quantity) {
 		this.nameComp = nameComp;
 		this.item = item;
 		this.layerIndex = layerIndex;
 		this.side = side;
 		this.hasItem = hasItem;
 		this.shelf = shelf;
+		this.quantity = quantity;
 	}
 
 	public Long getCompId() {
@@ -112,4 +117,13 @@ public class Compartment {
 		this.shelf = shelf;
 	}
 
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	
 }

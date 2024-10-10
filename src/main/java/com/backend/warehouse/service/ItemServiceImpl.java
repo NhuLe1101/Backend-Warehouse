@@ -36,7 +36,13 @@ public class ItemServiceImpl {
     public List<Item> getAllProducts() {
         return itemRepository.findAll();
     }
-    
+    public List<Compartment> getCompartmentsByItemId(Long itemId) {
+        Item item = itemRepository.findById(itemId)
+            .orElseThrow(() -> new RuntimeException("Item không tồn tại"));
+
+        // Trả về danh sách compartments của item
+        return item.getCompartments();
+    }
     public Item editItem(Long itemId, Long bookingId, String name, int quantity, float weight, Long shelfId,
             String type, String status, LocalDate checkin, LocalDate checkout, String delivery,
             List<List<Long>> compartmentsQuantityItems) throws Exception {
@@ -62,7 +68,6 @@ public class ItemServiceImpl {
 			item.setCheckin(checkin);
 			item.setCheckout(checkout);
 			item.setDelivery(delivery);
-			item.setShelf(shelf);
 			item.setBooking(booking);
 			
 			// Xử lý các compartments và quantity tương ứng

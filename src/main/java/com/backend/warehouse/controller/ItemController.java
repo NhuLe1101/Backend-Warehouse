@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.backend.warehouse.entity.Compartment;
 import com.backend.warehouse.entity.Item;
 import com.backend.warehouse.payload.response.MessageResponse;
 import com.backend.warehouse.service.ItemServiceImpl;
@@ -40,7 +41,14 @@ public class ItemController {
         return ResponseEntity.ok(items);
     }
     
-
+    @GetMapping("/{itemId}/compartments")
+    public ResponseEntity<List<Compartment>> getCompartmentsByItemId(@PathVariable Long itemId) {
+        List<Compartment> compartments = itemService.getCompartmentsByItemId(itemId);
+        if (compartments.isEmpty()) {
+            return ResponseEntity.noContent().build(); // Trả về 204 nếu không có dữ liệu
+        }
+        return ResponseEntity.ok(compartments); // Trả về danh sách compartments
+    }
     @PutMapping("/{itemId}")
     public ResponseEntity<?> editItem(
             @PathVariable("itemId") String id,

@@ -33,13 +33,11 @@ public class BookingServiceImpl {
 	@Autowired
 	private ItemRepository itemRepository;
 
-	private String[] header = { "Name", "Type", "Quantity", "Weight (g)", "Checkin Date", "Checkout Date", "Image",
-			"Useremail" };
+	private String[] header = { "Name", "Type", "Quantity", "Weight (g)", "Checkin Date", "Checkout Date", "Image","Useremail" };
 
 	private final String uploadDir = "uploads/";
 
-	public void saveFormData(String email, String phoneNumber, String fullName, String delivery, MultipartFile file,
-			String status, LocalDate checkin, LocalDate checkout) throws IOException, java.io.IOException {
+	public void saveFormData(String email, String phoneNumber, String fullName, MultipartFile file) throws IOException, java.io.IOException {
 		Path uploadPath = Paths.get(uploadDir);
 		if (!Files.exists(uploadPath)) {
 			Files.createDirectories(uploadPath);
@@ -90,11 +88,10 @@ public class BookingServiceImpl {
 					item.setCheckout(LocalDate.parse(csvRecord.get("Checkout Date"), formatter));
 					item.setImage(csvRecord.get("Image"));
 					item.setBooking(savedBooking);
-//                    item.setaPackage(null);
-//                    item.setDimension(null);
-//                    item.setPosition(null);
-					item.setShelf(null);
-					item.setWeight(0);
+					item.setCompartments(null);
+					item.setDelivery(null);
+					item.setWeight(Float.parseFloat(csvRecord.get("Weight (g)").replace(".", "")));
+					item.setStatus("Dang luu kho");
 					itemRepository.save(item);
 				}
 			}
