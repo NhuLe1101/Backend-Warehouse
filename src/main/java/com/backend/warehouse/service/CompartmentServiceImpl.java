@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.backend.warehouse.entity.Compartment;
 import com.backend.warehouse.entity.Item;
 import com.backend.warehouse.entity.Shelf;
+import com.backend.warehouse.payload.response.MessageResponse;
 import com.backend.warehouse.repository.CompartmentRepository;
 import com.backend.warehouse.repository.ItemRepository;
 import com.backend.warehouse.repository.ShelfRepository;
@@ -55,41 +56,44 @@ public class CompartmentServiceImpl implements CompartmentService {
 	}
 
 	@Override
-	public void addItemToCompartment(Long compartmentId, Long itemId, int quantity) {
-	    // Lấy compartment từ DB
-	    Compartment compartment = compartmentRepository.findById(compartmentId)
-	            .orElseThrow(() -> new RuntimeException("Compartment không tồn tại"));
+	public MessageResponse addItemToCompartment(Long compartmentId, Long itemId, int quantity) {
+        Compartment compartment = compartmentRepository.findById(compartmentId)
+                .orElse(null);
+        
+        if (compartment == null) {
+            return new MessageResponse("Error: Compartment không tồn tại!");
+        }
 
-	    // Lấy item từ DB
-	    Item item = itemRepository.findById(itemId)
-	            .orElseThrow(() -> new RuntimeException("Item không tồn tại"));
+        Item item = itemRepository.findById(itemId)
+                .orElse(null);
+
+        if (item == null) {
+            return new MessageResponse("Error: Item không tồn tại!");
+        };
 
 	    // Kiểm tra loại của Shelf trong Compartment và loại của Item có khớp nhau không
 	    if (!compartment.getShelf().getType().equals(item.getType())) {
-	        throw new RuntimeException("Type của Item và Shelf không khớp nhau");
+            return new MessageResponse("Error: Type của Item và Shelf không khớp nhau!");
 	    }
 
 	    // Kiểm tra số lượng item
 	    if (item.getQuantity() < 1 || quantity < 1) {
-	        throw new RuntimeException("Số lượng không hợp lệ. Số lượng phải lớn hơn 0.");
+            return new MessageResponse("Error: Số lượng không hợp lệ. Số lượng phải lớn hơn 0.");
 	    }
 
 	    // Kiểm tra số lượng còn lại của item có đủ không
 	    if (quantity > item.getQuantity()) {
-	        throw new RuntimeException("Số lượng item không đủ");
+            return new MessageResponse("Error: Số lượng item không đủ!");
 	    }
 
-	    // Cập nhật số lượng item
-	    item.setQuantity(item.getQuantity() - quantity);
-
-	    // Gán item vào compartment
 	    compartment.setItem(item);
 	    compartment.setHasItem(true);
-	    compartment.setQuantity(quantity);
+	    compartment.setQuantity(quantity); 
 
 	    // Lưu cập nhật vào database
 	    compartmentRepository.save(compartment);
-	    itemRepository.save(item);  // Lưu item sau khi cập nhật shelf
+        return new MessageResponse("Sản phẩm đã được thêm vào ngăn thành công!");
+
 	}
 
 

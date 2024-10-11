@@ -26,8 +26,8 @@ public class Compartment {
 	private String nameComp;
 
 	@ManyToOne
-    @JoinColumn(name = "item_id")
-    @JsonIgnore  // Sử dụng @JsonIgnore để bỏ qua trường compartments
+    @JoinColumn(name = "itemId")
+//    @JsonIgnore  // Sử dụng @JsonIgnore để bỏ qua trường compartments
     private Item item;
 
 	@Column(nullable = false) // Thêm annotation để lưu tầng của ngăn
