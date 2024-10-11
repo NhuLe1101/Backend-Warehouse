@@ -38,6 +38,7 @@ public class BookingServiceImpl {
 	private final String uploadDir = "uploads/";
 
 	public void saveFormData(MultipartFile file) throws IOException, java.io.IOException {
+
 		Path uploadPath = Paths.get(uploadDir);
 		if (!Files.exists(uploadPath)) {
 			Files.createDirectories(uploadPath);
@@ -94,7 +95,6 @@ public class BookingServiceImpl {
 					item.setCheckout(LocalDate.parse(csvRecord.get("Checkout Date"), formatter));
 					item.setImage(csvRecord.get("Image"));
 					item.setBooking(savedBooking);
-					item.setShelf(null);
 					item.setWeight(Float.parseFloat(csvRecord.get("Weight (g)").replace(".", "")));
 					item.setCompartments(null);
 					item.setDelivery(null);

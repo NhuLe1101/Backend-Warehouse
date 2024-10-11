@@ -10,6 +10,7 @@ import com.backend.warehouse.entity.Shelf;
 
 public interface CompartmentRepository extends JpaRepository<Compartment, Long> {
     Optional<Compartment> findByNameCompAndLayerIndexAndShelf(String nameComp, int layerIndex, Shelf shelf);
+    Compartment findByShelfAndNameComp(Shelf shelf, String nameComp);
 
 }
 

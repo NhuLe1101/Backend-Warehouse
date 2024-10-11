@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "items")
 public class Item {
@@ -25,12 +28,13 @@ public class Item {
 	@Column(nullable = true)
 	private String type;
 
-	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-	private List<Compartment> compartments; // Compartment(s) that Product belongs to
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @JsonIgnore  // Sử dụng @JsonIgnore để bỏ qua trường compartments
+    private List<Compartment> compartments;
 
-	@ManyToOne
-	@JoinColumn(name = "shelfId")
-	private Shelf shelf; // Shelf mà Product đang được đặt
+//	@ManyToOne
+//	@JoinColumn(name = "shelfId")
+//	private Shelf shelf; // Shelf mà Product đang được đặt
 
 	@ManyToOne
 	@JoinColumn(name = "booking_id")
@@ -55,14 +59,13 @@ public class Item {
 
 	}
 
-	public Item(String name, int quantity, float weight, String type, List<Compartment> compartments, Shelf shelf,
-			Booking booking, LocalDate checkin, LocalDate checkout, String status, String image, String delivery) {
+	public Item(String name, int quantity, float weight, String type, List<Compartment> compartments, Booking booking,
+			LocalDate checkin, LocalDate checkout, String status, String image, String delivery) {
 		this.name = name;
 		this.quantity = quantity;
 		this.weight = weight;
 		this.type = type;
 		this.compartments = compartments;
-		this.shelf = shelf;
 		this.booking = booking;
 		this.checkin = checkin;
 		this.checkout = checkout;
@@ -119,14 +122,6 @@ public class Item {
 		this.compartments = compartments;
 	}
 
-	public Shelf getShelf() {
-		return shelf;
-	}
-
-	public void setShelf(Shelf shelf) {
-		this.shelf = shelf;
-	}
-
 	public Booking getBooking() {
 		return booking;
 	}
@@ -175,4 +170,5 @@ public class Item {
 		this.delivery = delivery;
 	}
 
+	
 }
