@@ -32,10 +32,6 @@ public class Item {
     @JsonIgnore  // Sử dụng @JsonIgnore để bỏ qua trường compartments
     private List<Compartment> compartments;
 
-//	@ManyToOne
-//	@JoinColumn(name = "shelfId")
-//	private Shelf shelf; // Shelf mà Product đang được đặt
-
 	@ManyToOne
 	@JoinColumn(name = "booking_id")
 	private Booking booking; // Booking mà Product liên quan

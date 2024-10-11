@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.warehouse.entity.Compartment;
 import com.backend.warehouse.entity.Shelf;
 import com.backend.warehouse.payload.request.AddItemRequest;
+import com.backend.warehouse.payload.response.MessageResponse;
 import com.backend.warehouse.service.CompartmentService;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
@@ -59,25 +60,16 @@ public class CompartmentController {
 	}
 
 	@PostMapping("/{compartmentId}/addItem")
-	public ResponseEntity<?> addItemToCompartment(@PathVariable Long compartmentId, @RequestBody AddItemRequest request) {
-	    try {
-	        System.out.println("Received compartmentId: " + compartmentId);
-	        System.out.println("Received itemId: " + request.getItemId());
-	        System.out.println("Received quantity: " + request.getQuantity());
+	public ResponseEntity<?> addItemToCompartment(@PathVariable Long compartmentId,
+			@RequestBody AddItemRequest request) {
+		MessageResponse response = compartmentService.addItemToCompartment(compartmentId, request.getItemId(),
+				request.getQuantity());
 
-	        if (request.getItemId() == null || request.getQuantity() == null || request.getQuantity() <= 0) {
-	            return ResponseEntity.badRequest().body("Dữ liệu không hợp lệ. Vui lòng kiểm tra itemId hoặc quantity.");
-	        }
+		if (response.getMessage().startsWith("Error")) {
+			return ResponseEntity.badRequest().body(response);
+		}
 
-	        // Gọi service để thêm item vào compartment
-	        compartmentService.addItemToCompartment(compartmentId, request.getItemId(), request.getQuantity());
-	        return ResponseEntity.ok("Item đã được thêm vào compartment.");
-	    } catch (Exception e) {
-	        e.printStackTrace();  // Thêm dòng này để ghi chi tiết lỗi ra console
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi khi thêm item: " + e.getMessage());
-	    }
+		return ResponseEntity.ok(response);
 	}
-
-
 
 }
