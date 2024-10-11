@@ -111,6 +111,19 @@ public class BookingServiceImpl {
 
 
 	Path uploadPath = Paths.get(uploadDir);
+	
+	
+	public Booking updateBooking(Long id, String email, String phoneNumber, String fullName, String filePath) throws IOException {
+	Booking booking = bookingRepository.findById(id)
+	      .orElseThrow(() -> new RuntimeException("Không tìm thấy booking với ID: " + id));
+	  
+	booking.setCustomerEmail(email);
+	booking.setNumberphone(phoneNumber);
+	booking.setCustomerName(fullName);
+	booking.setExcelFile(filePath);
+	
+	return bookingRepository.save(booking);
+	}
 
 	
 }

@@ -58,5 +58,27 @@ public class BookingController {
 		List<Booking> bookings = bookingService.getAllBookings();
 		return ResponseEntity.ok(bookings);
 	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<?> updateBooking(
+      @PathVariable("id") Long id,
+      @RequestParam("email") String email,
+      @RequestParam("phoneNumber") String phoneNumber,
+      @RequestParam("fullName") String fullName,
+      @RequestParam("filePath") String filePath
+	) {
+      try {
+          bookingService.updateBooking(id, email, phoneNumber, fullName, filePath);
+          return ResponseEntity.ok(new MessageResponse("Cập nhật booking thành công!"));
+      } catch (IOException e) {
+          return ResponseEntity
+              .status(500) 
+              .body(new MessageResponse("Có lỗi xảy ra khi cập nhật dữ liệu: " + e.getMessage()));
+      } catch (Exception e) {
+          return ResponseEntity
+              .status(400) 
+              .body(new MessageResponse("Dữ liệu không hợp lệ: " + e.getMessage()));
+      }
+  }
 
 }
