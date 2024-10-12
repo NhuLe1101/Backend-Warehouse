@@ -49,62 +49,31 @@ public class ItemController {
         }
         return ResponseEntity.ok(compartments); // Trả về danh sách compartments
     }
-    @PutMapping("/{itemId}")
-    public ResponseEntity<?> editItem(
-            @PathVariable("itemId") String id,
-            @RequestParam("bookingid") String bookingid,
-            @RequestParam("name") String name,
-            @RequestParam("quantity") String quantity,
-            @RequestParam("weight") String weight,
-            @RequestParam("shelf") String shelf,
-            @RequestParam("type") String type,
-            @RequestParam("status") String status,
-            @RequestParam("checkin") LocalDate checkin,
-            @RequestParam("checkout") LocalDate checkout,
-            @RequestParam("delivery") String delivery,
-            @RequestParam("compartmentsid") List<String> compartmentsIds, // Nhiều compartmentsId
-            @RequestParam("compartmentsQuantityItem") List<String> compartmentsQuantityItems // Nhiều quantities
-    ) {
-        try {
-            // Chuyển đổi các tham số sang kiểu dữ liệu tương ứng
-            Long itemId = Long.parseLong(id);
-            Long bookingId = Long.parseLong(bookingid);
-            int itemQuantity = Integer.parseInt(quantity);
-            float itemWeight = Float.parseFloat(weight);
-            Long shelfId = Long.parseLong(shelf);
-
-            // Chuyển đổi danh sách compartmentsId và compartmentsQuantityItem thành List<List<Long>>
-            List<List<Long>> compartmentsQuantityList = new ArrayList<>();
-            for (int i = 0; i < compartmentsIds.size(); i++) {
-                Long compartmentId = Long.parseLong(compartmentsIds.get(i));
-                Long compartmentQuantityItem = Long.parseLong(compartmentsQuantityItems.get(i));
-                compartmentsQuantityList.add(Arrays.asList(compartmentId, compartmentQuantityItem));
-            }
-
-            // Gọi service với các tham số đã chuyển đổi
-            itemService.editItem(itemId, bookingId, name, itemQuantity, itemWeight, shelfId, type, status, checkin, checkout, delivery, compartmentsQuantityList);
-
-            return ResponseEntity.ok(new MessageResponse("Dữ liệu đã được lưu thành công!"));
-        } catch (NumberFormatException e) {
-            return ResponseEntity
-                .status(400)
-                .body(new MessageResponse("Dữ liệu không hợp lệ: " + e.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity
-                .status(500)
-                .body(new MessageResponse("Có lỗi xảy ra khi lưu dữ liệu: " + e.getMessage()));
-        }
-    }
-
     
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteItemsOfBooking(@PathVariable("id") Long id) {
-        try {
-        	itemService.deleteItemsByBookingId(id);
-            return ResponseEntity.ok(new MessageResponse("Xóa tất cả sản phẩn trong booking thành công!"));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Có lỗi xảy ra khi xóa sản phẩm!"));
-        }
-    }
+    
+    @PutMapping("/update/{id}")
+	public ResponseEntity<?> updateItem(
+      @PathVariable("id") Long id,
+      @RequestParam("name") String name,
+      @RequestParam("quantity") int quantity,
+      @RequestParam("status") String status,
+      @RequestParam("checkin") LocalDate checkin,
+      @RequestParam("checkout") LocalDate checkout,
+      @RequestParam("delivery") String delivery,
+      @RequestParam("weight") Float weight
+	) {
+      try {
+          itemService.updateItem(id, name, quantity, status, checkin, checkout, delivery, weight);
+          return ResponseEntity.ok(new MessageResponse("Cập nhật booking thành công!"));
+      } catch (IOException e) {
+          return ResponseEntity
+              .status(500) 
+              .body(new MessageResponse("Có lỗi xảy ra khi cập nhật dữ liệu: " + e.getMessage()));
+      } catch (Exception e) {
+          return ResponseEntity
+              .status(400) 
+              .body(new MessageResponse("Dữ liệu không hợp lệ: " + e.getMessage()));
+      }
+  }
 
 }

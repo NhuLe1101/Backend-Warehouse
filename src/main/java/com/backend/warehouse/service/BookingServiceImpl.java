@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class BookingServiceImpl {
+public class BookingServiceImpl implements BookingService {
 
 	@Autowired
 	private BookingRepository bookingRepository;
@@ -36,7 +36,8 @@ public class BookingServiceImpl {
 	private String[] header = { "Name", "Type", "Quantity", "Weight (g)", "Checkin Date", "Checkout Date", "Image", "Useremail" };
 
 	private final String uploadDir = "uploads/";
-
+	
+	@Override
 	public void saveFormData(MultipartFile file) throws IOException, java.io.IOException {
 
 		Path uploadPath = Paths.get(uploadDir);
@@ -105,6 +106,7 @@ public class BookingServiceImpl {
 		}
 	}
 
+	@Override
 	public List<Booking> getAllBookings() {
 		return bookingRepository.findAll();
 	}
@@ -112,7 +114,7 @@ public class BookingServiceImpl {
 
 	Path uploadPath = Paths.get(uploadDir);
 	
-	
+	@Override
 	public Booking updateBooking(Long id, String email, String phoneNumber, String fullName, String filePath) throws IOException {
 	Booking booking = bookingRepository.findById(id)
 	      .orElseThrow(() -> new RuntimeException("Không tìm thấy booking với ID: " + id));
