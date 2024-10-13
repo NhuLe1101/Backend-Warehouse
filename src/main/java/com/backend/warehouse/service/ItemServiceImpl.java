@@ -2,6 +2,7 @@ package com.backend.warehouse.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,5 +49,16 @@ public class ItemServiceImpl implements ItemService{
 	
 	return itemRepository.save(item);
 	}
+	
+	@Override
+	public List<Item> getItemByName(String name) {
+	    return itemRepository.findByNameContainingIgnoreCase(name);
+	}
+	
+	@Override
+	public List<Item> getItemByCompartment() {
+		return itemRepository.findAll();
+	}
+	
 
 }

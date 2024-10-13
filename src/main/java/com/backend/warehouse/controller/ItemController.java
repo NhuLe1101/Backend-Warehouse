@@ -75,5 +75,20 @@ public class ItemController {
               .body(new MessageResponse("Dữ liệu không hợp lệ: " + e.getMessage()));
       }
   }
+    
+    @GetMapping("/search")
+	public ResponseEntity<List<Item>> searchItemsByName(
+      @RequestParam String name
+	) {
+    	  List<Item> items = itemService.getItemByName(name);
+    	  return ResponseEntity.ok(items);
+  }
+    
+    @GetMapping("/compartment-is-null")
+	public ResponseEntity<List<Item>> searchItemsByCompartment(
+	) {
+    	  List<Item> items = itemService.getItemByCompartment();
+    	  return ResponseEntity.ok(items);
+  }
 
 }

@@ -110,7 +110,7 @@ public class BookingServiceImpl implements BookingService {
 	public List<Booking> getAllBookings() {
 		return bookingRepository.findAll();
 	}
-
+	
 
 	Path uploadPath = Paths.get(uploadDir);
 	
