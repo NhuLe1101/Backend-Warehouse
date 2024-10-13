@@ -1,6 +1,6 @@
 package com.backend.warehouse.payload.request;
 
-public class AddItemRequest {
+public class ItemRequest {
 	private Long itemId;
 	private Integer quantity;
 

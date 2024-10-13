@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.warehouse.entity.Compartment;
 import com.backend.warehouse.entity.Shelf;
-import com.backend.warehouse.payload.request.AddItemRequest;
+import com.backend.warehouse.payload.request.ItemRequest;
 import com.backend.warehouse.payload.response.MessageResponse;
 import com.backend.warehouse.service.CompartmentService;
 
@@ -60,8 +60,7 @@ public class CompartmentController {
 	}
 
 	@PostMapping("/{compartmentId}/addItem")
-	public ResponseEntity<?> addItemToCompartment(@PathVariable Long compartmentId,
-			@RequestBody AddItemRequest request) {
+	public ResponseEntity<?> addItemToCompartment(@PathVariable Long compartmentId, @RequestBody ItemRequest request) {
 		MessageResponse response = compartmentService.addItemToCompartment(compartmentId, request.getItemId(),
 				request.getQuantity());
 
@@ -70,6 +69,29 @@ public class CompartmentController {
 		}
 
 		return ResponseEntity.ok(response);
+	}
+
+	@PutMapping("/{compartmentId}/updateQuantity")
+	public ResponseEntity<?> updateItemQuantity(@PathVariable Long compartmentId, @RequestBody ItemRequest request) {
+		MessageResponse response = compartmentService.updateItemQuantity(compartmentId, request.getItemId(),
+				request.getQuantity());
+
+		if (response.getMessage().startsWith("Error")) {
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		return ResponseEntity.ok(response);
+	}
+
+	@DeleteMapping("/{compartmentId}/removeItem/{itemId}")
+	public ResponseEntity<?> removeItemFromCompartment(@PathVariable Long compartmentId, @PathVariable Long itemId) {
+
+		try {
+			compartmentService.removeItemFromCompartment(compartmentId, itemId);
+			return ResponseEntity.ok(new MessageResponse("Item đã được xóa khỏi ngăn thành công."));
+		} catch (RuntimeException e) {
+			return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+		}
 	}
 
 }

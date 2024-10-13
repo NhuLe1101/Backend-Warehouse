@@ -8,10 +8,14 @@ import com.backend.warehouse.payload.response.MessageResponse;
 
 public interface CompartmentService {
 	List<Compartment> getAllCompartments();
+
+	Compartment getCompartment(Long shelfId, String nameComp);
+
+	Compartment saveCompartment(Long shelfId, Compartment compartment);
+
+	MessageResponse addItemToCompartment(Long compartmentId, Long itemId, int quantity);
+
+	MessageResponse updateItemQuantity(Long compartmentId, Long itemId, int quantity);
 	
-    Compartment getCompartment(Long shelfId, String nameComp);
-
-    Compartment saveCompartment(Long shelfId, Compartment compartment);
-    MessageResponse addItemToCompartment(Long compartmentId, Long itemId, int quantity);
-
+	MessageResponse removeItemFromCompartment(Long compartmentId, Long itemId);
 }

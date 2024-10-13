@@ -57,45 +57,95 @@ public class CompartmentServiceImpl implements CompartmentService {
 
 	@Override
 	public MessageResponse addItemToCompartment(Long compartmentId, Long itemId, int quantity) {
-        Compartment compartment = compartmentRepository.findById(compartmentId)
-                .orElse(null);
-        
-        if (compartment == null) {
-            return new MessageResponse("Error: Compartment không tồn tại!");
-        }
+		Compartment compartment = compartmentRepository.findById(compartmentId).orElse(null);
 
-        Item item = itemRepository.findById(itemId)
-                .orElse(null);
+		if (compartment == null) {
+			return new MessageResponse("Error: Compartment không tồn tại!");
+		}
 
-        if (item == null) {
-            return new MessageResponse("Error: Item không tồn tại!");
-        };
+		Item item = itemRepository.findById(itemId).orElse(null);
 
-	    // Kiểm tra loại của Shelf trong Compartment và loại của Item có khớp nhau không
-	    if (!compartment.getShelf().getType().equals(item.getType())) {
-            return new MessageResponse("Error: Type của Item và Shelf không khớp nhau!");
-	    }
+		if (item == null) {
+			return new MessageResponse("Error: Item không tồn tại!");
+		}
+		
 
-	    // Kiểm tra số lượng item
-	    if (item.getQuantity() < 1 || quantity < 1) {
-            return new MessageResponse("Error: Số lượng không hợp lệ. Số lượng phải lớn hơn 0.");
-	    }
+		// Kiểm tra loại của Shelf trong Compartment và loại của Item có khớp nhau không
+		if (!compartment.getShelf().getType().equals(item.getType())) {
+			return new MessageResponse("Error: Type của Item và Shelf không khớp nhau!");
+		}
 
-	    // Kiểm tra số lượng còn lại của item có đủ không
-	    if (quantity > item.getQuantity()) {
-            return new MessageResponse("Error: Số lượng item không đủ!");
-	    }
+		// Kiểm tra số lượng item
+		if (item.getQuantity() < 1 || quantity < 1) {
+			return new MessageResponse("Error: Số lượng không hợp lệ. Số lượng phải lớn hơn 0.");
+		}
 
-	    compartment.setItem(item);
-	    compartment.setHasItem(true);
-	    compartment.setQuantity(quantity); 
+		// Kiểm tra số lượng còn lại của item có đủ không
+		if (quantity > item.getQuantity()) {
+			return new MessageResponse("Error: Số lượng item không đủ!");
+		}
 
-	    // Lưu cập nhật vào database
-	    compartmentRepository.save(compartment);
-        return new MessageResponse("Sản phẩm đã được thêm vào ngăn thành công!");
+		compartment.setItem(item);
+		compartment.setHasItem(true);
+		compartment.setQuantity(quantity);
+
+		// Lưu cập nhật vào database
+		compartmentRepository.save(compartment);
+		return new MessageResponse("Sản phẩm đã được thêm vào ngăn thành công!");
 
 	}
 
+	@Override
+	public MessageResponse updateItemQuantity(Long compartmentId, Long itemId, int quantity) {
+		Compartment compartment = compartmentRepository.findById(compartmentId).orElse(null);
 
+		if (compartment == null) {
+			return new MessageResponse("Error: Compartment không tồn tại!");
+		}
+
+		Item item = itemRepository.findById(itemId).orElse(null);
+
+		if (item == null) {
+			return new MessageResponse("Error: Item không tồn tại!");
+		}
+		
+		// Kiểm tra nếu số lượng item còn lại đủ để cập nhật
+		int totalQuantityInCompartments = compartmentRepository.sumQuantityByItemId(itemId); 
+		int remainingQuantity = item.getQuantity() - totalQuantityInCompartments;
+
+		if (quantity > remainingQuantity) {
+			return new MessageResponse("Error: Số lượng item không đủ. Số lượng còn lại: " + remainingQuantity);
+		}
+
+		compartment.setQuantity(quantity);
+		compartmentRepository.save(compartment);
+		return new MessageResponse("Sản phẩm đã được sửa thành công!");
+
+	}
+	@Override
+	public MessageResponse removeItemFromCompartment(Long compartmentId, Long itemId) {
+		Compartment compartment = compartmentRepository.findById(compartmentId).orElse(null);
+
+		if (compartment == null) {
+			return new MessageResponse("Error: Compartment không tồn tại!");
+		}
+
+		Item item = itemRepository.findById(itemId).orElse(null);
+
+		if (item == null) {
+			return new MessageResponse("Error: Item không tồn tại!");
+		}
+		
+		 // Xóa item khỏi ngăn
+        compartment.setItem(null);
+        compartment.setHasItem(false);
+        compartment.setQuantity(0);
+
+        // Lưu cập nhật vào database
+        compartmentRepository.save(compartment);
+        
+		return new MessageResponse("Sản phẩm đã được xóa thành công!");
+
+	}
 
 }
