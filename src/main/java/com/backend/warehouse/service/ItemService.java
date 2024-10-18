@@ -13,8 +13,6 @@ public interface ItemService {
 	
 	List<Item> getItemByName(String name);
 	
-	List<Item> getItemByCompartment();
-	
 	List<Compartment> getCompartmentsByItemId(Long itemId);
 
 	Item updateItem(Long id, String name, int quantity, String status, LocalDate checkin, LocalDate checkout, String delivery, Float weight) throws IOException;

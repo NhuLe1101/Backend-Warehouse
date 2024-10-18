@@ -94,7 +94,13 @@ public class BookingServiceImpl implements BookingService {
 					item.setQuantity(Integer.parseInt(csvRecord.get("Quantity").replace(".", "")));
 					item.setCheckin(LocalDate.parse(csvRecord.get("Checkin Date"), formatter));
 					item.setCheckout(LocalDate.parse(csvRecord.get("Checkout Date"), formatter));
-					item.setImage(csvRecord.get("Image"));
+					String image = csvRecord.get("Image");
+					if(image.isEmpty()) {
+						item.setImage(null);
+					}
+					else {
+						item.setImage(image);	
+					}
 					item.setBooking(savedBooking);
 					item.setWeight(Float.parseFloat(csvRecord.get("Weight (g)").replace(".", "")));
 					item.setCompartments(null);

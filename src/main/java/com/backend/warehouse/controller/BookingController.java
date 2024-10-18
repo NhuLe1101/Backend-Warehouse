@@ -80,5 +80,23 @@ public class BookingController {
               .body(new MessageResponse("Dữ liệu không hợp lệ: " + e.getMessage()));
       }
   }
+	
+  @GetMapping("/download/{fileName:.+}")
+  public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
+      try {
+          Path file = Paths.get("uploads").resolve(fileName);
+          Resource resource = new UrlResource(file.toUri());
+
+          if (resource.exists() || resource.isReadable()) {
+              return ResponseEntity.ok()
+                  .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                  .body(resource);
+          } else {
+              throw new RuntimeException("Không thể đọc file: " + fileName);
+          }
+      } catch (Exception e) {
+          throw new RuntimeException("Có lỗi xảy ra khi tải file: " + fileName, e);
+      }
+  }
 
 }

@@ -55,10 +55,6 @@ public class ItemServiceImpl implements ItemService{
 	    return itemRepository.findByNameContainingIgnoreCase(name);
 	}
 	
-	@Override
-	public List<Item> getItemByCompartment() {
-		return itemRepository.findAll();
-	}
 	
 
 }

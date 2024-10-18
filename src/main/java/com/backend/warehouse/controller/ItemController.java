@@ -2,7 +2,11 @@ package com.backend.warehouse.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +28,8 @@ import com.backend.warehouse.entity.Item;
 import com.backend.warehouse.payload.response.MessageResponse;
 import com.backend.warehouse.service.ItemServiceImpl;
 
+import com.backend.warehouse.service.CompartmentService;
+
 import io.jsonwebtoken.io.IOException;
 
 
@@ -34,6 +40,9 @@ public class ItemController {
 
     @Autowired
     private ItemServiceImpl itemService;
+    
+    @Autowired
+    private CompartmentService compartmentService;
     
     @GetMapping("/all")
     public ResponseEntity<List<Item>> getAllBookings() {
@@ -84,11 +93,79 @@ public class ItemController {
     	  return ResponseEntity.ok(items);
   }
     
-    @GetMapping("/compartment-is-null")
-	public ResponseEntity<List<Item>> searchItemsByCompartment(
-	) {
-    	  List<Item> items = itemService.getItemByCompartment();
-    	  return ResponseEntity.ok(items);
-  }
+//    @GetMapping("/compartment-is-null")
+//	public ResponseEntity<List<Item>> searchItemsByCompartment(
+//	) {
+//    	  List<Item> items = itemService.getItemByCompartment();
+//    	  return ResponseEntity.ok(items);
+//  }
+    
+    @GetMapping("/items-not-in-compartments")
+    public List<Item> getItemsNotInCompartments() {
+        List<Compartment> compartments = compartmentService.getAllCompartments();
+        Set<Long> itemIdsSet = new HashSet<>();
+
+        for (Compartment compartment : compartments) {
+            if (compartment.isHasItem() && compartment.getItem() != null) {
+                itemIdsSet.add(compartment.getItem().getItemId());
+            }
+        }
+
+        List<Item> allItems = itemService.getAllProducts();
+
+        List<Item> filteredItems = allItems.stream()
+            .filter(item -> !itemIdsSet.contains(item.getItemId()))
+            .collect(Collectors.toList());
+
+        return filteredItems;
+    }
+    
+    @GetMapping("/items-check-in-decrease")
+    public List<Item> getItemsByCheckinDecrease() {
+        List<Item> allItems = itemService.getAllProducts();
+
+        List<Item> sortedItems = allItems.stream()
+            .sorted(Comparator.comparing(Item::getCheckin).reversed())
+            .collect(Collectors.toList());
+
+        return sortedItems;
+    }
+    
+    @GetMapping("/items-check-in-increase")
+    public List<Item> getItemsByCheckinIncrease() {
+        List<Item> allItems = itemService.getAllProducts();
+
+        List<Item> sortedItems = allItems.stream()
+            .sorted(Comparator.comparing(Item::getCheckin))
+            .collect(Collectors.toList());
+
+        return sortedItems;
+    }
+
+    
+    @GetMapping("/items-check-out-increase")
+    public List<Item> getItemsByCheckoutIncrease() {
+        List<Item> allItems = itemService.getAllProducts();
+
+        List<Item> sortedItems = allItems.stream()
+            .sorted(Comparator.comparing(Item::getCheckout))
+            .collect(Collectors.toList());
+
+        return sortedItems;
+    }
+
+    @GetMapping("/items-check-out-decrease")
+    public List<Item> getItemsByCheckoutDecrease() {
+        List<Item> allItems = itemService.getAllProducts();
+
+        List<Item> sortedItems = allItems.stream()
+            .sorted(Comparator.comparing(Item::getCheckout).reversed())
+            .collect(Collectors.toList());
+
+        return sortedItems;
+    }
+
+
+
 
 }
