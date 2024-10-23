@@ -51,7 +51,7 @@ public class CompartmentController {
 			return ResponseEntity.notFound().build(); // Trả về 404 nếu không tìm thấy compartment
 		}
 	}
-
+	
 	@PostMapping("/{shelfId}")
 	public ResponseEntity<Compartment> saveCompartment(@PathVariable Long shelfId,
 			@RequestBody Compartment compartment) {

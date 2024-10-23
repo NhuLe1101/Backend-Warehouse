@@ -8,7 +8,9 @@ import com.backend.warehouse.payload.response.MessageResponse;
 
 public interface CompartmentService {
 	List<Compartment> getAllCompartments();
-
+	
+	Compartment getCompartmentById(Long compartmentId);
+	
 	Compartment getCompartment(Long shelfId, String nameComp);
 
 	Compartment saveCompartment(Long shelfId, Compartment compartment);

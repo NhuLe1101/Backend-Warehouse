@@ -29,7 +29,12 @@ public class CompartmentServiceImpl implements CompartmentService {
 	public List<Compartment> getAllCompartments() {
 		return compartmentRepository.findAll();
 	}
-
+	
+	@Override
+	public Compartment getCompartmentById(Long compartmentId) {
+        return compartmentRepository.findById(compartmentId).orElse(null);
+    }
+	
 	@Override
 	public Compartment getCompartment(Long shelfId, String nameComp) {
 		// Tìm kiếm Shelf trước
