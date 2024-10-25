@@ -63,6 +63,7 @@ public class WebSecurityConfig {
 	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	        .authorizeHttpRequests(auth -> 
 	          auth.requestMatchers("/api/booking/**").permitAll()
+	          	  .requestMatchers("/api/jasper/**").permitAll()
 	          	  .requestMatchers("/api/product/**").permitAll()
 	              .requestMatchers("/api/compartments/**").permitAll()
 	          	  .requestMatchers("/api/shelf/**").permitAll()

@@ -33,7 +33,7 @@ public class BookingServiceImpl implements BookingService {
 	@Autowired
 	private ItemRepository itemRepository;
 
-	private String[] header = { "Name", "Type", "Quantity", "Weight (g)", "Checkin Date", "Checkout Date", "Image", "Useremail" };
+	private String[] header = { "Name", "Type", "Quantity", "Weight (g)", "Checkin Date", "Checkout Date", "Image", "Useremail", "Delivery" };
 
 	private final String uploadDir = "uploads/";
 	
@@ -104,7 +104,13 @@ public class BookingServiceImpl implements BookingService {
 					item.setBooking(savedBooking);
 					item.setWeight(Float.parseFloat(csvRecord.get("Weight (g)").replace(".", "")));
 					item.setCompartments(null);
-					item.setDelivery(null);
+					String delivery = csvRecord.get("Delivery");
+					if(delivery.isEmpty()) {
+						item.setDelivery(null);
+					}
+					else {
+						item.setDelivery(delivery);	
+					}
 					item.setStatus("Đang lưu kho");
 					itemRepository.save(item);
 				}

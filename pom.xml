@@ -106,7 +106,13 @@
     		<artifactId>commons-csv</artifactId>
     		<version>1.10.0</version>
 		</dependency>
-
+		
+		<dependency>
+		   <groupId>net.sf.jasperreports</groupId>
+		   <artifactId>jasperreports</artifactId>
+		   <version>6.20.1</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
