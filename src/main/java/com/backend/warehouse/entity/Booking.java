@@ -21,7 +21,10 @@ public class Booking {
     private String numberphone;
     
     @Column(nullable = false)
-    private String excelFile; 
+    private String excelFile;
+    
+    @Column(nullable = false)
+    private Long referenceNo;
     
 
     public Booking() {
@@ -29,12 +32,24 @@ public class Booking {
     }
 
 
-	public Booking(String customerEmail, String customerName, String numberphone, String excelFile) {
+	public Booking(String customerEmail, String customerName, String numberphone, String excelFile, Long referenceNo) {
 		super();
 		this.customerEmail = customerEmail;
 		this.customerName = customerName;
 		this.numberphone = numberphone;
 		this.excelFile = excelFile;
+		this.referenceNo = referenceNo;
+	}
+
+
+
+	public Long getReferenceNo() {
+		return referenceNo;
+	}
+
+
+	public void setReferenceNo(Long referenceNo) {
+		this.referenceNo = referenceNo;
 	}
 
 

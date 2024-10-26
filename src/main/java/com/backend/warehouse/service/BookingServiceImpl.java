@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Random;
+
 @Service
 public class BookingServiceImpl implements BookingService {
 
@@ -74,6 +76,10 @@ public class BookingServiceImpl implements BookingService {
 					booking.setCustomerEmail(csvRecord.get("Useremail"));
 				}
 			}
+			
+			Random random = new Random();
+			Long randomNumber = 10000 + random.nextLong(90000);
+			booking.setReferenceNo(randomNumber);
 		}
 
 
