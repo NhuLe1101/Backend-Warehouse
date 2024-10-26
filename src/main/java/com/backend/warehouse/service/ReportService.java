@@ -7,6 +7,6 @@ import net.sf.jasperreports.engine.JRException;
 
 public interface ReportService {
 	
-	byte[] generatePdfReport(List<Item> items) throws JRException, FileNotFoundException;
+	byte[] generatePdfReportItem(List<Item> items) throws JRException, FileNotFoundException;
 
 }

@@ -29,7 +29,7 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private ItemRepository itemRepository;
     
-    public byte[] generatePdfReport(List<Item> items) throws JRException, FileNotFoundException {
+    public byte[] generatePdfReportItem(List<Item> items) throws JRException, FileNotFoundException {
         List<ReportRequest> reportItems = items.stream()
             .map(item -> new ReportRequest(
                 item.getName(),
@@ -47,8 +47,8 @@ public class ReportServiceImpl implements ReportService {
 //                               ", Checkout = " + reportItem.getCheckout())
 //        );
 
-
-        String path = ResourceUtils.getFile("classpath:reports/Invoice_999.jrxml").getAbsolutePath();
+        
+        String path = ResourceUtils.getFile("classpath:reports/ReportVip5.jrxml").getAbsolutePath();
         JasperReport jasperReport = JasperCompileManager.compileReport(path);
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportItems);
         Map<String, Object> parameters = new HashMap<>();

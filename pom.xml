@@ -113,6 +113,18 @@
 		   <version>6.20.1</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>6.20.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>ar.com.fdvs</groupId>
+		    <artifactId>DynamicJasper-core-fonts</artifactId>
+		    <version>1.0</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

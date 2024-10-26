@@ -29,14 +29,14 @@ public class ReportController {
     @Autowired
     private ItemRepository itemRepository;
 
-    @GetMapping("/generate-pdf")
+    @GetMapping("/generate-pdf-item")
     public ResponseEntity<byte[]> generatePdf() {
         try {
             // Lấy danh sách item từ repository
             List<Item> items = itemRepository.findAll();
 
             // Gọi service để tạo báo cáo PDF
-            byte[] pdfContent = reportService.generatePdfReport(items);
+            byte[] pdfContent = reportService.generatePdfReportItem(items);
 
             // Tạo header cho phản hồi
             HttpHeaders headers = new HttpHeaders();
@@ -54,4 +54,5 @@ public class ReportController {
                     .body(new byte[0]);
         }
     }
+    
 }
