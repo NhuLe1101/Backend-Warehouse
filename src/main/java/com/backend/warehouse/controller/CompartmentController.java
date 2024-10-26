@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.warehouse.entity.CheckoutRecord;
 import com.backend.warehouse.entity.Compartment;
 import com.backend.warehouse.entity.Shelf;
 import com.backend.warehouse.payload.request.ItemRequest;
@@ -51,7 +52,7 @@ public class CompartmentController {
 			return ResponseEntity.notFound().build(); // Trả về 404 nếu không tìm thấy compartment
 		}
 	}
-	
+
 	@PostMapping("/{shelfId}")
 	public ResponseEntity<Compartment> saveCompartment(@PathVariable Long shelfId,
 			@RequestBody Compartment compartment) {
@@ -93,5 +94,42 @@ public class CompartmentController {
 			return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
 		}
 	}
+	
+    // API checkout item
+	 @PostMapping("/{compartmentId}/checkout/{itemId}")
+	    public ResponseEntity<MessageResponse> checkoutItem(
+	            @PathVariable Long compartmentId, 
+	            @PathVariable Long itemId,
+	            @RequestParam String referenceNo, 
+	            @RequestParam String delivery) {
 
+	        // Gọi service để thực hiện checkout item với userId từ token
+	        MessageResponse response = compartmentService.checkoutItem(compartmentId, itemId, referenceNo, delivery);
+
+	        return response.getMessage().startsWith("Error") 
+	            ? ResponseEntity.badRequest().body(response)
+	            : ResponseEntity.ok(response);
+	    }
+
+	// API lấy danh sách các item đã checkout nhưng chưa xác nhận
+	@GetMapping("/checkout/pending")
+	public List<CheckoutRecord> getPendingCheckoutItems() {
+		return compartmentService.getPendingCheckoutItems();
+	}
+
+	// API xác nhận checkout
+	@PostMapping("/checkout/confirm/{recordId}")
+	public ResponseEntity<MessageResponse> confirmCheckout(@PathVariable Long recordId) {
+		MessageResponse response = compartmentService.confirmCheckout(recordId);
+		return response.getMessage().startsWith("Error") ? ResponseEntity.badRequest().body(response)
+				: ResponseEntity.ok(response);
+	}
+
+	// API hủy checkout và trả lại item vào compartment
+	@PostMapping("/checkout/cancel/{recordId}")
+	public ResponseEntity<MessageResponse> cancelCheckout(@PathVariable Long recordId) {
+		MessageResponse response = compartmentService.cancelCheckout(recordId);
+		return response.getMessage().startsWith("Error") ? ResponseEntity.badRequest().body(response)
+				: ResponseEntity.ok(response);
+	}
 }
