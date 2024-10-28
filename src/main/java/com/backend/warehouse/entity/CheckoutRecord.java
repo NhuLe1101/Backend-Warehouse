@@ -31,13 +31,19 @@ public class CheckoutRecord {
     
     @Column(nullable = true)
     private boolean confirmed;
-
+    
+    @Column(nullable = false) // Thêm cột quantity để lưu số lượng khi checkout
+    private int quantity;
+    
+    @Column(nullable = true)
+    private Long storageDuration;
+    
     public CheckoutRecord() {
     	
     }
 
 	public CheckoutRecord(Item item, Compartment compartment, User user, String referenceNo, String delivery,
-			LocalDate checkoutDate, boolean confirmed) {
+			LocalDate checkoutDate, boolean confirmed, int quantity, Long storageDuration) {
 		super();
 		this.item = item;
 		this.compartment = compartment;
@@ -46,6 +52,8 @@ public class CheckoutRecord {
 		this.delivery = delivery;
 		this.checkoutDate = checkoutDate;
 		this.confirmed = confirmed;
+		this.quantity = quantity;
+		this.storageDuration = storageDuration;
 	}
 
 	public Long getId() {
@@ -112,5 +120,19 @@ public class CheckoutRecord {
 		this.confirmed = confirmed;
 	}
 
-	
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public Long getStorageDuration() {
+        return storageDuration;
+    }
+
+    public void setStorageDuration(Long storageDuration) {
+        this.storageDuration = storageDuration;
+    }
 }
