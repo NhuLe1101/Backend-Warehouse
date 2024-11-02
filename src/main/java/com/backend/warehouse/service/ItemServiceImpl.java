@@ -55,6 +55,5 @@ public class ItemServiceImpl implements ItemService{
 	    return itemRepository.findByNameContainingIgnoreCase(name);
 	}
 	
-	
 
 }

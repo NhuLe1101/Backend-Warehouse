@@ -41,8 +41,6 @@ public class Booking {
 		this.referenceNo = referenceNo;
 	}
 
-
-
 	public Long getReferenceNo() {
 		return referenceNo;
 	}
