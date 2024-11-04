@@ -291,7 +291,6 @@ public class CompartmentServiceImpl implements CompartmentService {
 	            itemRepository.save(item);
 	        }
 	    }
-
 	    return new MessageResponse("Xác nhận xuất hàng thành công!");
 	}
 
