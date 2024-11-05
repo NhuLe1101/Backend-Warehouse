@@ -50,6 +50,12 @@ public class ItemController {
         return ResponseEntity.ok(items);
     }
     
+    @GetMapping("/byStatus")
+    public ResponseEntity<List<Item>> getProductsByStatus() {
+        List<Item> items = itemService.getItemsByStatus();
+        return ResponseEntity.ok(items);
+    }
+    
     @GetMapping("/{itemId}/compartments")
     public ResponseEntity<List<Compartment>> getCompartmentsByItemId(@PathVariable Long itemId) {
         List<Compartment> compartments = itemService.getCompartmentsByItemId(itemId);
