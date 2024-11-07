@@ -24,7 +24,12 @@ public class ItemServiceImpl implements ItemService{
     public List<Item> getAllProducts() {
         return itemRepository.findAll();
     }
-    
+	
+	@Override
+	public List<Item> getItemsByStatus() {
+        return itemRepository.findByStatus("Đang lưu kho");
+    }
+	
 	@Override
     public List<Compartment> getCompartmentsByItemId(Long itemId) {
         Item item = itemRepository.findById(itemId)
