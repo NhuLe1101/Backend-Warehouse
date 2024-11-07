@@ -86,4 +86,5 @@ public class LoginSignupController {
 
 		return ResponseEntity.ok(new MessageResponse("Đăng ký thành công!"));
 	}
+
 }
