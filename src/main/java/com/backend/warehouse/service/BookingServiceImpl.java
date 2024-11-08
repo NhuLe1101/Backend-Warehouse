@@ -145,5 +145,8 @@ public class BookingServiceImpl implements BookingService {
 	return bookingRepository.save(booking);
 	}
 
-	
+	public Long getTotalCustomers() {
+        Long totalCustomers = bookingRepository.countTotalCustomers();
+        return totalCustomers != null ? totalCustomers : 0;  // Đảm bảo trả về 0 nếu không có khách hàng nào
+    }
 }

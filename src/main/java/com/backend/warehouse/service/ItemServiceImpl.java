@@ -1,7 +1,10 @@
 package com.backend.warehouse.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +63,22 @@ public class ItemServiceImpl implements ItemService{
 	    return itemRepository.findByNameContainingIgnoreCase(name);
 	}
 	
+	public Long getTotalItemsInStock() {
+        Long totalItems = itemRepository.countItemsInStock();
+        return totalItems != null ? totalItems : 0;
+    }
+	
+	public List<Map<String, Object>> getMonthlyItemCount() {
+        List<Object[]> rawData = itemRepository.getMonthlyItemQuantity();
+        List<Map<String, Object>> monthlyItemCounts = new ArrayList<>();
 
+        for (Object[] entry : rawData) {
+            Map<String, Object> monthData = new HashMap<>();
+            monthData.put("month", entry[0]);  // Tháng
+            monthData.put("totalQuantity", entry[1]);  // Tổng số lượng
+            monthlyItemCounts.add(monthData);
+        }
+
+        return monthlyItemCounts;
+    }
 }

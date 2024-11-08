@@ -99,4 +99,9 @@ public class BookingController {
       }
   }
 
+  @GetMapping("/totalCustomers")
+  public ResponseEntity<Long> getTotalCustomers() {
+      Long totalCustomers = bookingService.getTotalCustomers();
+      return ResponseEntity.ok(totalCustomers);
+  }
 }

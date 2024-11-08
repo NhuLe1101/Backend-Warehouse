@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -65,6 +66,11 @@ public class ItemController {
         return ResponseEntity.ok(compartments); // Trả về danh sách compartments
     }
     
+    @GetMapping("/totalItemsInStock")
+    public ResponseEntity<Long> getTotalItemsInStock() {
+        Long totalItemsInStock = itemService.getTotalItemsInStock();
+        return ResponseEntity.ok(totalItemsInStock);
+    }
     
     @PutMapping("/update/{id}")
 	public ResponseEntity<?> updateItem(
@@ -171,7 +177,10 @@ public class ItemController {
         return sortedItems;
     }
 
-
-
+    @GetMapping("/monthlyItemCount")
+    public ResponseEntity<List<Map<String, Object>>> getMonthlyItemCount() {
+        List<Map<String, Object>> monthlyCounts = itemService.getMonthlyItemCount();
+        return ResponseEntity.ok(monthlyCounts);
+    }
 
 }

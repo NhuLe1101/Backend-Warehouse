@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,5 +87,9 @@ public class LoginSignupController {
 
 		return ResponseEntity.ok(new MessageResponse("Đăng ký thành công!"));
 	}
-
+	@GetMapping("/countUsers")
+	public ResponseEntity<Long> countUsers() {
+	    long userCount = userRepository.count();
+	    return ResponseEntity.ok(userCount);
+	}
 }
