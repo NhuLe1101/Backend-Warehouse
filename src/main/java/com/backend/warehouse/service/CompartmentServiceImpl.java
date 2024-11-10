@@ -11,6 +11,7 @@ import java.util.Optional;
 import com.backend.warehouse.entity.CheckoutRecord;
 import com.backend.warehouse.entity.Compartment;
 import com.backend.warehouse.entity.Item;
+import com.backend.warehouse.entity.NotificationType;
 import com.backend.warehouse.entity.Shelf;
 import com.backend.warehouse.entity.User;
 import com.backend.warehouse.payload.response.MessageResponse;
@@ -39,7 +40,10 @@ public class CompartmentServiceImpl implements CompartmentService {
 
 	@Autowired
 	private UserRepository userRepository;
-
+	
+	@Autowired
+	private NotificationService notificationService;
+	
 	@Override
 	public List<Compartment> getAllCompartments() {
 		return compartmentRepository.findAll();
@@ -180,7 +184,7 @@ public class CompartmentServiceImpl implements CompartmentService {
 	}
 
 
-	@Override 
+	@Override
 	public MessageResponse checkoutItem(Long compartmentId, Long itemId, String referenceNo, String delivery) {
 	    // Lấy thông tin user từ token
 	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -240,7 +244,7 @@ public class CompartmentServiceImpl implements CompartmentService {
 	    checkoutRecord.setCheckoutDate(LocalDate.now());
 	    checkoutRecord.setConfirmed(false);
 	    checkoutRecord.setQuantity(compartment.getQuantity());
-	    checkoutRecord.setStorageDuration(storageDuration); 
+	    checkoutRecord.setStorageDuration(storageDuration);
 	    checkoutRecord.setUser(user); // Thiết lập user cho CheckoutRecord
 
 	    checkoutRecordRepository.save(checkoutRecord);
@@ -252,8 +256,19 @@ public class CompartmentServiceImpl implements CompartmentService {
 	    compartment.setReserved(true); 
 	    compartmentRepository.save(compartment);
 
+	    // Gọi phương thức tạo thông báo
+	    notificationService.createNotification(
+	        null,
+	        NotificationType.ITEM_CHECKOUT,
+	        itemId,
+	        compartment.getShelf() != null ? compartment.getShelf().getShelfId() : null,
+	        compartmentId,
+	        userId
+	    );
+
 	    return new MessageResponse("Sản phẩm đã được thêm vào danh sách vận chuyển thành công!");
 	}
+
 
 
 	@Override

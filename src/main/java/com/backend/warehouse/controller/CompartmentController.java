@@ -94,22 +94,18 @@ public class CompartmentController {
 			return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
 		}
 	}
-	
-    // API checkout item
-	 @PostMapping("/{compartmentId}/checkout/{itemId}")
-	    public ResponseEntity<MessageResponse> checkoutItem(
-	            @PathVariable Long compartmentId, 
-	            @PathVariable Long itemId,
-	            @RequestParam String referenceNo, 
-	            @RequestParam String delivery) {
 
-	        // Gọi service để thực hiện checkout item với userId từ token
-	        MessageResponse response = compartmentService.checkoutItem(compartmentId, itemId, referenceNo, delivery);
+	// API checkout item
+	@PostMapping("/{compartmentId}/checkout/{itemId}")
+	public ResponseEntity<MessageResponse> checkoutItem(@PathVariable Long compartmentId, @PathVariable Long itemId,
+			@RequestParam String referenceNo, @RequestParam String delivery) {
 
-	        return response.getMessage().startsWith("Error") 
-	            ? ResponseEntity.badRequest().body(response)
-	            : ResponseEntity.ok(response);
-	    }
+		// Gọi service để thực hiện checkout item với userId từ token
+		MessageResponse response = compartmentService.checkoutItem(compartmentId, itemId, referenceNo, delivery);
+
+		return response.getMessage().startsWith("Error") ? ResponseEntity.badRequest().body(response)
+				: ResponseEntity.ok(response);
+	}
 
 	// API lấy danh sách các item đã checkout nhưng chưa xác nhận
 	@GetMapping("/checkout/pending")
