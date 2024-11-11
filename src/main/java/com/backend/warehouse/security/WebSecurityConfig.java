@@ -70,6 +70,7 @@ public class WebSecurityConfig {
 	          	  .requestMatchers("/api/warehouse/**").permitAll()
 	          	  .requestMatchers("/api/notifications/**").permitAll()
 	              .requestMatchers("/api/auth/**").permitAll()
+	              .requestMatchers("/api/test/**").permitAll()
 	              .requestMatchers("/ws/**", "/topic/**", "/app/**").permitAll() 
 	              .anyRequest().authenticated()
 	        );

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "notification")
 public class Notification {
 
 	@Id
@@ -15,6 +16,9 @@ public class Notification {
 
 	@Enumerated(EnumType.STRING)
 	private NotificationType type; // Enum to distinguish types like CHECKOUT_REMINDER, ITEM_CHECKOUT
+	
+	@Enumerated(EnumType.STRING)
+    private NotificationStatus status = NotificationStatus.UNREAD;
 	
 	@ManyToOne
 	@JoinColumn(name = "item_id", nullable = true)
@@ -31,12 +35,13 @@ public class Notification {
 	public Notification() {
 
 	}
-	
-	public Notification(String message, LocalDateTime timestamp, NotificationType type, Item item, Shelf shelf,
-			Compartment compartment) {
+
+	public Notification(String message, LocalDateTime timestamp, NotificationType type, NotificationStatus status,
+			Item item, Shelf shelf, Compartment compartment) {
 		this.message = message;
 		this.timestamp = timestamp;
 		this.type = type;
+		this.status = status;
 		this.item = item;
 		this.shelf = shelf;
 		this.compartment = compartment;
@@ -96,6 +101,14 @@ public class Notification {
 
 	public void setCompartment(Compartment compartment) {
 		this.compartment = compartment;
+	}
+
+	public NotificationStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(NotificationStatus status) {
+		this.status = status;
 	}
 
 }

@@ -25,4 +25,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	@Query("SELECT MONTH(i.checkin), SUM(i.quantity) " + "FROM Item i " + "WHERE i.checkin IS NOT NULL "
 			+ "GROUP BY MONTH(i.checkin) " + "ORDER BY MONTH(i.checkin)")
 	List<Object[]> getMonthlyItemQuantity();
+	
+
 }

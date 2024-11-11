@@ -1,5 +1,6 @@
 package com.backend.warehouse.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,5 +16,7 @@ public interface CompartmentRepository extends JpaRepository<Compartment, Long> 
     Compartment findByShelfAndNameComp(Shelf shelf, String nameComp);
     @Query("SELECT SUM(c.quantity) FROM Compartment c WHERE c.item.itemId = :itemId")
     Integer sumQuantityByItemId(@Param("itemId") Long itemId);
+    List<Compartment> findByItem_ItemId(Long itemId);
+
 }
 
