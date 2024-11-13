@@ -35,16 +35,21 @@ public class CheckoutReminderJob {
     @Autowired
     private NotificationRepository notificationRepository; // Để lưu thông báo vào database
 
-    @Scheduled(cron = "0 0 * * * ?") // Chạy mỗi giờ
+    @Scheduled(cron = "0 * * * * ?") // Chạy mỗi phút
     public void checkItemsForCheckoutReminder() {
-        List<Item> items = itemRepository.findAll(); // Lấy tất cả các item từ cơ sở dữ liệu
+        System.out.println("Running scheduled job: checkItemsForCheckoutReminder");
+        
+        List<Item> items = itemRepository.findAll(); 
+        System.out.println("Found " + items.size() + " items to check.");
+
         for (Item item : items) {
             if (item.getCheckout() != null && item.getCheckout().isEqual(LocalDate.now())) {
-                // Lấy danh sách các compartments mà item có mặt
+                System.out.println("Item " + item.getItemId() + " is due for checkout reminder today.");
+
                 List<Compartment> compartments = compartmentRepository.findByItem_ItemId(item.getItemId());
+                System.out.println("Item " + item.getItemId() + " is in " + compartments.size() + " compartments.");
 
                 for (Compartment compartment : compartments) {
-                    // Kiểm tra xem thông báo `CHECKOUT_REMINDER` cho item và compartment đã được tạo trong ngày chưa
                     boolean notificationExists = notificationRepository.existsByItemAndTypeAndTimestampBetween(
                         item, NotificationType.CHECKOUT_REMINDER,
                         LocalDate.now().atStartOfDay(), LocalDate.now().atTime(23, 59, 59)
@@ -54,28 +59,28 @@ public class CheckoutReminderJob {
                         String shelfName = (compartment.getShelf() != null) ? compartment.getShelf().getNameShelf() : "Unknown Shelf";
                         String compartmentName = compartment.getNameComp();
 
-                        // Tạo nội dung thông báo chi tiết
                         String message = String.format("Item %s (ID: %d) ở kệ %s, ngăn %s đã đến hạn checkout.",
                                                        item.getName(), item.getItemId(), shelfName, compartmentName);
 
-                        // Tạo đối tượng thông báo và lưu vào database
                         Notification notification = new Notification();
                         notification.setMessage(message);
                         notification.setType(NotificationType.CHECKOUT_REMINDER);
                         notification.setTimestamp(LocalDateTime.now());
                         notification.setItem(item);
 
-                        notificationRepository.save(notification); // Lưu vào database
+                        notificationRepository.save(notification);
 
-                        // Gửi thông báo qua WebSocket
                         messagingTemplate.convertAndSend("/topic/notifications", notification);
-
-                        // Log để kiểm tra
                         System.out.println("Sent CHECKOUT_REMINDER for item ID: " + item.getItemId() + " in compartment ID: " + compartment.getCompId());
+                    } else {
+                        System.out.println("Notification already exists for item ID: " + item.getItemId() + " in compartment ID: " + compartment.getCompId());
                     }
                 }
+            } else {
+                System.out.println("Item " + item.getItemId() + " does not meet the checkout condition.");
             }
         }
     }
+
 
 }
