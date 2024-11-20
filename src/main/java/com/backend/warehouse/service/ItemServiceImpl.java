@@ -53,7 +53,7 @@ public class ItemServiceImpl implements ItemService{
 	item.setCheckin(checkin);
 	item.setCheckout(checkout);
 	item.setDelivery(delivery);
-	item.setWeight(quantity);
+	item.setWeight(weight);
 	
 	return itemRepository.save(item);
 	}
