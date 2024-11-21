@@ -35,7 +35,7 @@ public class CheckoutReminderJob {
     @Autowired
     private NotificationRepository notificationRepository; // Để lưu thông báo vào database
 
-    @Scheduled(cron = "0 * * * * ?") // Chạy mỗi phút
+    @Scheduled(cron = "0 */30 * * * ?")
     public void checkItemsForCheckoutReminder() {
         System.out.println("Running scheduled job: checkItemsForCheckoutReminder");
         
