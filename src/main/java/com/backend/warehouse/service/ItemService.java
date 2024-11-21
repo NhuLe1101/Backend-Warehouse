@@ -5,17 +5,18 @@ import java.util.List;
 
 import com.backend.warehouse.entity.Compartment;
 import com.backend.warehouse.entity.Item;
+import com.backend.warehouse.payload.response.ItemResponse;
 
 import io.jsonwebtoken.io.IOException;
 
 public interface ItemService {
-	List<Item> getAllProducts();
+	List<ItemResponse> getAllProducts();
 	
 	List<Item> getItemByName(String name);
 	
-	List<Item> getItemsByStatus();
+	List<ItemResponse> getItemsByStatus();
 	
 	List<Compartment> getCompartmentsByItemId(Long itemId);
 
-	Item updateItem(Long id, String name, int quantity, String status, LocalDate checkin, LocalDate checkout, String delivery, Float weight) throws IOException;
+	Item updateItem(String id, String name, int quantity, String status, LocalDate checkin, LocalDate checkout, String delivery, Float weight) throws IOException;
 }

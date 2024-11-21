@@ -2,6 +2,7 @@ package com.backend.warehouse.service;
 
 import com.backend.warehouse.entity.Booking;
 import com.backend.warehouse.entity.Item;
+import com.backend.warehouse.payload.response.BookingResponse;
 import com.backend.warehouse.repository.BookingRepository;
 import com.backend.warehouse.repository.ItemRepository;
 
@@ -124,17 +125,49 @@ public class BookingServiceImpl implements BookingService {
 		}
 	}
 
+	public String formatId(Long id) {
+	    if (id < 10) {
+	        return "BK000" + id;
+	    } else if (id < 100) {
+	        return "BK00" + id;
+	    } else if (id < 1000) {
+	        return "BK0" + id;
+	    } else {
+	        return "BK" + id;
+	    }
+	}
+
+	public Long parseId(String formattedId) {
+	    if (formattedId.startsWith("SP")) {
+	        String numericPart = formattedId.substring(2); 
+	        return Long.parseLong(numericPart);
+	    } else {
+	        throw new IllegalArgumentException("Invalid formatted ID: " + formattedId);
+	    }
+	}
+	
 	@Override
-	public List<Booking> getAllBookings() {
-		return bookingRepository.findAll();
+	public List<BookingResponse> getAllBookings() {
+		List<Booking> bookings = bookingRepository.findAll();
+		List<BookingResponse> bookingDTOs = bookings.stream().map(booking -> 
+        new BookingResponse(
+        	formatId(booking.getId()), 
+            booking.getCustomerEmail(),
+            booking.getCustomerName(),
+            booking.getNumberphone(),
+            booking.getExcelFile(),
+            booking.getReferenceNo() 
+        )
+    ).toList();
+		return bookingDTOs;
 	}
 	
 
 	Path uploadPath = Paths.get(uploadDir);
 	
 	@Override
-	public Booking updateBooking(Long id, String email, String phoneNumber, String fullName, String filePath) throws IOException {
-	Booking booking = bookingRepository.findById(id)
+	public Booking updateBooking(String id, String email, String phoneNumber, String fullName, String filePath) throws IOException {
+	Booking booking = bookingRepository.findById(parseId(id))
 	      .orElseThrow(() -> new RuntimeException("Không tìm thấy booking với ID: " + id));
 	  
 	booking.setCustomerEmail(email);

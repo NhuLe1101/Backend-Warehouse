@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.backend.warehouse.entity.Compartment;
 import com.backend.warehouse.entity.Item;
+import com.backend.warehouse.payload.response.ItemResponse;
 import com.backend.warehouse.payload.response.MessageResponse;
 import com.backend.warehouse.service.ItemServiceImpl;
 
@@ -46,14 +47,14 @@ public class ItemController {
     private CompartmentService compartmentService;
     
     @GetMapping("/all")
-    public ResponseEntity<List<Item>> getAllBookings() {
-        List<Item> items = itemService.getAllProducts();
+    public ResponseEntity<List<ItemResponse>> getAllBookings() {
+        List<ItemResponse> items = itemService.getAllProducts();
         return ResponseEntity.ok(items);
     }
     
     @GetMapping("/byStatus")
-    public ResponseEntity<List<Item>> getProductsByStatus() {
-        List<Item> items = itemService.getItemsByStatus();
+    public ResponseEntity<List<ItemResponse>> getProductsByStatus() {
+        List<ItemResponse> items = itemService.getItemsByStatus();
         return ResponseEntity.ok(items);
     }
     
@@ -74,7 +75,7 @@ public class ItemController {
     
     @PutMapping("/update/{id}")
 	public ResponseEntity<?> updateItem(
-      @PathVariable("id") Long id,
+      @PathVariable("id") String id,
       @RequestParam("name") String name,
       @RequestParam("quantity") int quantity,
       @RequestParam("status") String status,
@@ -113,7 +114,7 @@ public class ItemController {
 //  }
     
     @GetMapping("/items-not-in-compartments")
-    public List<Item> getItemsNotInCompartments() {
+    public List<ItemResponse> getItemsNotInCompartments() {
         List<Compartment> compartments = compartmentService.getAllCompartments();
         Set<Long> itemIdsSet = new HashSet<>();
 
@@ -123,9 +124,9 @@ public class ItemController {
             }
         }
 
-        List<Item> allItems = itemService.getAllProducts();
+        List<ItemResponse> allItems = itemService.getAllProducts();
 
-        List<Item> filteredItems = allItems.stream()
+        List<ItemResponse> filteredItems = allItems.stream()
             .filter(item -> !itemIdsSet.contains(item.getItemId()))
             .collect(Collectors.toList());
 
@@ -133,22 +134,22 @@ public class ItemController {
     }
     
     @GetMapping("/items-check-in-decrease")
-    public List<Item> getItemsByCheckinDecrease() {
-        List<Item> allItems = itemService.getAllProducts();
+    public List<ItemResponse> getItemsByCheckinDecrease() {
+        List<ItemResponse> allItems = itemService.getAllProducts();
 
-        List<Item> sortedItems = allItems.stream()
-            .sorted(Comparator.comparing(Item::getCheckin).reversed())
+        List<ItemResponse> sortedItems = allItems.stream()
+            .sorted(Comparator.comparing(ItemResponse::getCheckin).reversed())
             .collect(Collectors.toList());
 
         return sortedItems;
     }
     
     @GetMapping("/items-check-in-increase")
-    public List<Item> getItemsByCheckinIncrease() {
-        List<Item> allItems = itemService.getAllProducts();
+    public List<ItemResponse> getItemsByCheckinIncrease() {
+        List<ItemResponse> allItems = itemService.getAllProducts();
 
-        List<Item> sortedItems = allItems.stream()
-            .sorted(Comparator.comparing(Item::getCheckin))
+        List<ItemResponse> sortedItems = allItems.stream()
+            .sorted(Comparator.comparing(ItemResponse::getCheckin))
             .collect(Collectors.toList());
 
         return sortedItems;
@@ -156,22 +157,22 @@ public class ItemController {
 
     
     @GetMapping("/items-check-out-increase")
-    public List<Item> getItemsByCheckoutIncrease() {
-        List<Item> allItems = itemService.getAllProducts();
+    public List<ItemResponse> getItemsByCheckoutIncrease() {
+        List<ItemResponse> allItems = itemService.getAllProducts();
 
-        List<Item> sortedItems = allItems.stream()
-            .sorted(Comparator.comparing(Item::getCheckout))
+        List<ItemResponse> sortedItems = allItems.stream()
+            .sorted(Comparator.comparing(ItemResponse::getCheckout))
             .collect(Collectors.toList());
 
         return sortedItems;
     }
 
     @GetMapping("/items-check-out-decrease")
-    public List<Item> getItemsByCheckoutDecrease() {
-        List<Item> allItems = itemService.getAllProducts();
+    public List<ItemResponse> getItemsByCheckoutDecrease() {
+        List<ItemResponse> allItems = itemService.getAllProducts();
 
-        List<Item> sortedItems = allItems.stream()
-            .sorted(Comparator.comparing(Item::getCheckout).reversed())
+        List<ItemResponse> sortedItems = allItems.stream()
+            .sorted(Comparator.comparing(ItemResponse::getCheckout).reversed())
             .collect(Collectors.toList());
 
         return sortedItems;
