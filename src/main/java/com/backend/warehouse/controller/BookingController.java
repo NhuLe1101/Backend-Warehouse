@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.backend.warehouse.entity.Booking;
+import com.backend.warehouse.payload.response.BookingResponse;
 import com.backend.warehouse.payload.response.MessageResponse;
 import com.backend.warehouse.service.BookingServiceImpl;
 import io.jsonwebtoken.io.IOException;
@@ -54,14 +55,14 @@ public class BookingController {
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<List<Booking>> getAllBookings() {
-		List<Booking> bookings = bookingService.getAllBookings();
+	public ResponseEntity<List<BookingResponse>> getAllBookings() {
+		List<BookingResponse> bookings = bookingService.getAllBookings();
 		return ResponseEntity.ok(bookings);
 	}
 	
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateBooking(
-      @PathVariable("id") Long id,
+      @PathVariable("id") String id,
       @RequestParam("email") String email,
       @RequestParam("phoneNumber") String phoneNumber,
       @RequestParam("fullName") String fullName,
