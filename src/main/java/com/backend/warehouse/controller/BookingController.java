@@ -30,7 +30,7 @@ import com.backend.warehouse.service.BookingServiceImpl;
 import io.jsonwebtoken.io.IOException;
 import com.backend.warehouse.service.ItemServiceImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:3000", "https://webapp-warehouse3d.netlify.app"}, maxAge = 3600)
 @RestController
 @RequestMapping("/api/booking")
 public class BookingController {
