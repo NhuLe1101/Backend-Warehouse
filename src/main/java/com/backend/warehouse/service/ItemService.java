@@ -12,11 +12,13 @@ import io.jsonwebtoken.io.IOException;
 public interface ItemService {
 	List<ItemResponse> getAllProducts();
 	
-	List<Item> getItemByName(String name);
+	List<ItemResponse> getItemByName(String name);
 	
 	List<ItemResponse> getItemsByStatus();
 	
-	List<Compartment> getCompartmentsByItemId(Long itemId);
+	List<Compartment> getCompartmentsByItemId(String itemId);
 
 	Item updateItem(String id, String name, int quantity, String status, LocalDate checkin, LocalDate checkout, String delivery, Float weight) throws IOException;
+	
+	List<Long> getBookingIdsFromItems();
 }

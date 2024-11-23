@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.backend.warehouse.entity.CheckoutRecord;
-
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 public interface CheckoutRecordRepository extends JpaRepository<CheckoutRecord, Long> {
 
     List<CheckoutRecord> findByConfirmedFalse();
@@ -17,5 +18,10 @@ public interface CheckoutRecordRepository extends JpaRepository<CheckoutRecord, 
     Integer sumQuantityByItemIdAndConfirmed(@Param("itemId") Long itemId, @Param("confirmed") boolean confirmed);
     
     List<CheckoutRecord> findByCheckoutDate(LocalDate checkoutDate);
+    
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM CheckoutRecord c WHERE c.item.id IN (SELECT i.id FROM Item i WHERE i.status = :status AND i.checkout < :cutoffDate)")
+    void deleteCheckoutRecordsBeforeDate(String status, LocalDate cutoffDate);
 }
 

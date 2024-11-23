@@ -196,7 +196,7 @@ public class ReportServiceImpl implements ReportService {
                                ));
 
         
-        String path = ResourceUtils.getFile("classpath:reports/CheckoutItemReport_v14.jrxml").getAbsolutePath();
+        String path = ResourceUtils.getFile("classpath:reports/CheckoutItemReport_v19.jrxml").getAbsolutePath();
         JasperReport jasperReport = JasperCompileManager.compileReport(path);
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportItems);
         Map<String, Object> parameters = new HashMap<>();

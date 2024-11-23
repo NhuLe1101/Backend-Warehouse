@@ -93,8 +93,8 @@ public class ItemServiceImpl implements ItemService{
     }
 	
 	@Override
-    public List<Compartment> getCompartmentsByItemId(Long itemId) {
-        Item item = itemRepository.findById(itemId)
+    public List<Compartment> getCompartmentsByItemId(String itemId) {
+        Item item = itemRepository.findById(parseId(itemId))
             .orElseThrow(() -> new RuntimeException("Item không tồn tại"));
 
         // Trả về danh sách compartments của item
@@ -117,10 +117,91 @@ public class ItemServiceImpl implements ItemService{
 	return itemRepository.save(item);
 	}
 	
+//	@Override
+//	public List<ItemResponse> getItemByName(String name) {
+//		List<Item> items = itemRepository.findByNameContainingIgnoreCase(name);
+//		List<ItemResponse> itemDTOs = items.stream().map(item -> 
+//        new ItemResponse(
+//        	formatId(item.getItemId()), 
+//            item.getName(),
+//            item.getQuantity(),
+//            item.getWeight(),
+//            item.getType(),
+//            item.getCompartments(),
+//            item.getBooking(),
+//            item.getCheckin(),
+//            item.getCheckout(),
+//            item.getStatus(),
+//            item.getImage(),
+//            item.getDelivery()
+//        )
+//    ).toList();
+//		return itemDTOs;
+//	}
+	
 	@Override
-	public List<Item> getItemByName(String name) {
-	    return itemRepository.findByNameContainingIgnoreCase(name);
+	public List<ItemResponse> getItemByName(String input) {
+	    List<ItemResponse> itemDTOs;
+
+	    try {
+	        Long itemId;
+	        if (input.matches("\\d+")) { 
+	            itemId = Long.parseLong(input);
+	        } else if (input.startsWith("SP")) {
+	            itemId = parseId(input);
+	        } else {
+	            return searchByName(input);
+	        }
+
+	        Item item = itemRepository.findById(itemId).orElse(null);
+
+	        if (item != null) {
+	            itemDTOs = List.of(new ItemResponse(
+	                formatId(item.getItemId()), 
+	                item.getName(),
+	                item.getQuantity(),
+	                item.getWeight(),
+	                item.getType(),
+	                item.getCompartments(),
+	                item.getBooking(),
+	                item.getCheckin(),
+	                item.getCheckout(),
+	                item.getStatus(),
+	                item.getImage(),
+	                item.getDelivery()
+	            ));
+	        } else {
+	            itemDTOs = new ArrayList<>();
+	        }
+
+	    } catch (IllegalArgumentException e) {
+	        itemDTOs = searchByName(input);
+	    }
+
+	    return itemDTOs;
 	}
+
+	private List<ItemResponse> searchByName(String name) {
+	    List<Item> items = itemRepository.findByNameContainingIgnoreCase(name);
+	    return items.stream().map(item -> 
+	        new ItemResponse(
+	            formatId(item.getItemId()), 
+	            item.getName(),
+	            item.getQuantity(),
+	            item.getWeight(),
+	            item.getType(),
+	            item.getCompartments(),
+	            item.getBooking(),
+	            item.getCheckin(),
+	            item.getCheckout(),
+	            item.getStatus(),
+	            item.getImage(),
+	            item.getDelivery()
+	        )
+	    ).toList();
+	}
+
+	
 	
 	public Long getTotalItemsInStock() {
         Long totalItems = itemRepository.countItemsInStock();
@@ -140,4 +221,24 @@ public class ItemServiceImpl implements ItemService{
 
         return monthlyItemCounts;
     }
+	
+	 public void deleteItemsByBookingId(Long bookingId) {
+	        itemRepository.deleteByBookingId(bookingId);
+	    }
+	 
+	 
+	 @Override
+	 public List<Long> getBookingIdsFromItems() {
+	     List<Item> items = itemRepository.findByStatusNot("Đã xuất kho");
+
+	     List<Long> bookingIds = items.stream()
+	             .map(item -> item.getBooking() != null ? item.getBooking().getId() : null)
+	             .filter(bookingId -> bookingId != null)
+	             .distinct() 
+	             .collect(Collectors.toList());
+
+	     return bookingIds;
+	 }
+
+	
 }

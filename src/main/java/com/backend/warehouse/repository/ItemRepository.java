@@ -1,8 +1,10 @@
 package com.backend.warehouse.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,4 +29,10 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	List<Object[]> getMonthlyItemQuantity();
 	
 
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM Item i WHERE i.status = :status AND i.checkout < :cutoffDate")
+	int deleteItemsBeforeDate(String status, LocalDate cutoffDate);
+
+	List<Item> findByStatusNot(String string);
 }

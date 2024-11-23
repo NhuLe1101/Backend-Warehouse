@@ -9,6 +9,7 @@ import com.backend.warehouse.repository.ItemRepository;
 import io.jsonwebtoken.io.IOException;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,6 +17,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
@@ -26,6 +28,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -35,6 +39,9 @@ public class BookingServiceImpl implements BookingService {
 
 	@Autowired
 	private ItemRepository itemRepository;
+	
+	@Autowired
+	private ItemService itemservice;
 
 	private String[] header = { "Name", "Type", "Quantity", "Weight (g)", "Checkin Date", "Checkout Date", "Image", "Useremail", "Delivery" };
 
@@ -138,7 +145,7 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	public Long parseId(String formattedId) {
-	    if (formattedId.startsWith("SP")) {
+	    if (formattedId.startsWith("BK")) {
 	        String numericPart = formattedId.substring(2); 
 	        return Long.parseLong(numericPart);
 	    } else {
@@ -148,18 +155,31 @@ public class BookingServiceImpl implements BookingService {
 	
 	@Override
 	public List<BookingResponse> getAllBookings() {
-		List<Booking> bookings = bookingRepository.findAll();
-		List<BookingResponse> bookingDTOs = bookings.stream().map(booking -> 
-        new BookingResponse(
-        	formatId(booking.getId()), 
-            booking.getCustomerEmail(),
-            booking.getCustomerName(),
-            booking.getNumberphone(),
-            booking.getExcelFile(),
-            booking.getReferenceNo() 
-        )
-    ).toList();
-		return bookingDTOs;
+		
+	    List<Long> bookingIds = itemservice.getBookingIdsFromItems();
+	    Set<Long> bookingIdSet = new HashSet<>(bookingIds);
+
+	    // In kết quả ra console
+	    System.out.println("Booking IDs: " + bookingIds);
+	    
+	    // Lọc các booking từ danh sách bookingIds
+	    List<Booking> bookings = bookingRepository.findAll().stream()
+	        .filter(booking -> bookingIdSet.contains(booking.getId()))  // Dùng Set để kiểm tra nhanh hơn
+	        .collect(Collectors.toList());
+
+	    // Chuyển các booking thành bookingDTO
+	    List<BookingResponse> bookingDTOs = bookings.stream().map(booking -> 
+	        new BookingResponse(
+	            formatId(booking.getId()), 
+	            booking.getCustomerEmail(),
+	            booking.getCustomerName(),
+	            booking.getNumberphone(),
+	            booking.getExcelFile(),
+	            booking.getReferenceNo() 
+	        )
+	    ).collect(Collectors.toList());
+
+	    return bookingDTOs;
 	}
 	
 
@@ -181,5 +201,9 @@ public class BookingServiceImpl implements BookingService {
 	public Long getTotalCustomers() {
         Long totalCustomers = bookingRepository.countTotalCustomers();
         return totalCustomers != null ? totalCustomers : 0;  // Đảm bảo trả về 0 nếu không có khách hàng nào
+    }
+	
+	public void deleteBookingById(Long id) {
+        bookingRepository.deleteById(id);
     }
 }

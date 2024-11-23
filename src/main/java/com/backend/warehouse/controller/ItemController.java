@@ -59,7 +59,7 @@ public class ItemController {
     }
     
     @GetMapping("/{itemId}/compartments")
-    public ResponseEntity<List<Compartment>> getCompartmentsByItemId(@PathVariable Long itemId) {
+    public ResponseEntity<List<Compartment>> getCompartmentsByItemId(@PathVariable String itemId) {
         List<Compartment> compartments = itemService.getCompartmentsByItemId(itemId);
         if (compartments.isEmpty()) {
             return ResponseEntity.noContent().build(); // Trả về 204 nếu không có dữ liệu
@@ -99,10 +99,10 @@ public class ItemController {
   }
     
     @GetMapping("/search")
-	public ResponseEntity<List<Item>> searchItemsByName(
+	public ResponseEntity<List<ItemResponse>> searchItemsByName(
       @RequestParam String name
 	) {
-    	  List<Item> items = itemService.getItemByName(name);
+    	  List<ItemResponse> items = itemService.getItemByName(name);
     	  return ResponseEntity.ok(items);
   }
     
@@ -112,6 +112,15 @@ public class ItemController {
 //    	  List<Item> items = itemService.getItemByCompartment();
 //    	  return ResponseEntity.ok(items);
 //  }
+    
+	public Long parseId(String formattedId) {
+	    if (formattedId.startsWith("SP")) {
+	        String numericPart = formattedId.substring(2); 
+	        return Long.parseLong(numericPart);
+	    } else {
+	        throw new IllegalArgumentException("Invalid formatted ID: " + formattedId);
+	    }
+	}
     
     @GetMapping("/items-not-in-compartments")
     public List<ItemResponse> getItemsNotInCompartments() {
@@ -127,7 +136,7 @@ public class ItemController {
         List<ItemResponse> allItems = itemService.getAllProducts();
 
         List<ItemResponse> filteredItems = allItems.stream()
-            .filter(item -> !itemIdsSet.contains(item.getItemId()))
+            .filter(item -> !itemIdsSet.contains(parseId(item.getItemId())))
             .collect(Collectors.toList());
 
         return filteredItems;

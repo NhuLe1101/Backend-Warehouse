@@ -105,4 +105,30 @@ public class BookingController {
       Long totalCustomers = bookingService.getTotalCustomers();
       return ResponseEntity.ok(totalCustomers);
   }
+  
+	public Long parseId(String formattedId) {
+	    if (formattedId.startsWith("BK")) {
+	        String numericPart = formattedId.substring(2); 
+	        return Long.parseLong(numericPart);
+	    } else {
+	        throw new IllegalArgumentException("Invalid formatted ID: " + formattedId);
+	    }
+	}
+	
+  
+  @DeleteMapping("/delete/{id}")
+  public ResponseEntity<?> deleteBooking(@PathVariable("id") String id) {
+      try {
+          itemService.deleteItemsByBookingId(parseId(id));
+
+          bookingService.deleteBookingById(parseId(id));
+
+          return ResponseEntity.ok(new MessageResponse("Xóa booking và các item liên quan thành công!"));
+      } catch (Exception e) {
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+              .body(new MessageResponse("Có lỗi xảy ra khi xóa booking: " + e.getMessage()));
+      }
+  }
+
+  
 }

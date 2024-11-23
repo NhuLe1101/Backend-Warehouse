@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DeliveryReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="10407d74-0d53-4992-89bc-a4162d6eef69">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#EEEFF0"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#CACED0">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#D8D8D8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="tableDataset" uuid="a3ff6b55-bef7-4802-9ed0-96275f62bfd6">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="productName" class="java.lang.String"/>
+	<field name="weight" class="java.lang.Float"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="nameComp" class="java.lang.String"/>
+	<field name="nameShelf" class="java.lang.String"/>
+	<field name="storageDuration" class="java.lang.Long"/>
+	<field name="checkout" class="java.sql.Date"/>
+	<field name="delivery" class="java.lang.String"/>
+	<field name="referenceNo" class="java.lang.String"/>
+	<field name="profileName" class="java.lang.String"/>
+	<title>
+		<band height="187" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="80" width="800" height="1" uuid="94277032-c03d-42ab-b4d4-be28247ffb0f">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<image hAlign="Center">
+				<reportElement x="0" y="2" width="65" height="60" uuid="4bc3cdaf-3938-49c5-b0b3-625a0b5bc03b"/>
+				<imageExpression><![CDATA["https://res.cloudinary.com/dt46dvdeu/image/upload/v1729927615/fyqe44yvekql8coori2e.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="95" y="0" width="210" height="25" uuid="abe62e89-133e-4bc4-9382-bf8b993ed8f2">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="19" isBold="true" pdfFontName="Times-Bold" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[S.WAREHOUSE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="55" width="205" height="15" uuid="401e2aa2-09a3-4cbb-a6c3-91243cb87457"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Email: whs@gmail.com]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="25" width="205" height="15" uuid="4c4c97a6-c6a9-40c3-baa7-fbb66c996ca9"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[273 An Dương Vương]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="40" width="205" height="15" uuid="3d585b54-9686-4eb7-84d5-708d04d03090"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Phường 3, Quận 5, HCM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="238" y="100" width="268" height="30" uuid="13d89054-235f-4f70-b076-de106ab9cbe4"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[DANH SÁCH SẢN PHẨM XUẤT KHO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="38">
+			<staticText>
+				<reportElement x="0" y="0" width="40" height="29" uuid="a1bfd0b5-8fd7-4d92-b889-00b7b31469dd"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="0" width="60" height="29" uuid="e1708fc2-d581-4233-b521-56240d852795">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5591a0e3-3b92-4e8a-8e40-c7318c4fc102"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Số lượng]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="0" width="77" height="29" uuid="809d0a06-1874-4005-bd5e-87b3eab97934">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1e88a3f-48ff-4fe8-bc73-d0f34d5e3568"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Trọng lượng]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="0" width="60" height="29" uuid="eb72493d-3b88-4da4-80e2-d5847299d30c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7f38a149-8754-4a78-9a1f-fb83431967a8"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Phân loại]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="337" y="0" width="32" height="29" uuid="78e754e2-6621-4af6-bdab-2bbf7510551c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0e1e29f9-8d24-4303-a4c4-94ad5b5fab16"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Ngăn]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="369" y="0" width="50" height="29" uuid="1618f85f-b1fa-4947-b9f5-7d18f4a80d2e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a8110d7d-2f4f-4958-9b57-0b6db632dfce"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Kệ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="720" y="0" width="80" height="30" uuid="6404c80d-eada-443b-b983-4182cfb455e3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="980c7fd5-c5c5-4fbf-a4de-d78d4dc6f524"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Tổng thời gian lưu kho (ngày)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="0" width="98" height="29" uuid="7499394d-0d0b-4388-9c38-f13592d87164">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5591a0e3-3b92-4e8a-8e40-c7318c4fc102"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Tên sản phẩm]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="419" y="0" width="70" height="28" uuid="3ebb3370-1687-4acf-a4f9-f751a8e529a1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fb2cb286-5526-440b-9c9e-8bc08f0b89c9"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Xe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="489" y="0" width="62" height="30" uuid="046afc2f-9789-40a7-bf94-a494fb8d31b1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="64297ef6-7979-4d23-b8eb-38107b2c1ff3"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Mã xác nhận]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="551" y="0" width="102" height="30" uuid="8cbd4dcf-6d59-4203-86cb-0e72afd1946e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="39aca49b-76c4-4083-ae9d-789330b96d44"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Nhân viên]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="653" y="0" width="66" height="30" uuid="8c25c5f9-498f-414f-97d4-54b11bc64eb2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="39aca49b-76c4-4083-ae9d-789330b96d44"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Ngày xuất kho]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="57">
+			<textField>
+				<reportElement x="40" y="0" width="97" height="39" uuid="cbf5261a-6449-4917-a40b-04c659981f9c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="209fe7fd-ce5d-401e-a188-e57479817dbc"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="139" y="0" width="60" height="20" uuid="5a116930-9e4c-44c0-8c2e-c46a605edef7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5591a0e3-3b92-4e8a-8e40-c7318c4fc102"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="0" width="78" height="20" uuid="51cdb72e-137d-4c0f-b5c3-5a58d4e715a1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1e88a3f-48ff-4fe8-bc73-d0f34d5e3568"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{weight}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="277" y="0" width="58" height="20" uuid="ac94ee23-8d78-419f-82f0-fd815eff29d4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7f38a149-8754-4a78-9a1f-fb83431967a8"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="335" y="0" width="33" height="20" uuid="c73ca527-afdd-4da0-87f2-f86ae14735b1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0e1e29f9-8d24-4303-a4c4-94ad5b5fab16"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nameComp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="369" y="0" width="50" height="18" uuid="0efff453-be45-493b-a981-5c3272d5b4ba">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a8110d7d-2f4f-4958-9b57-0b6db632dfce"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nameShelf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="720" y="0" width="82" height="20" uuid="00ef27aa-0c59-4aff-aa3d-5cf4cb4385c6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="980c7fd5-c5c5-4fbf-a4de-d78d4dc6f524"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{storageDuration}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="40" height="20" uuid="d7e9e636-2675-4792-9a38-fcdb777563b6"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="419" y="0" width="70" height="18" uuid="60d7f1ff-5ee5-4b1b-a5e3-d225322cd475">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fb2cb286-5526-440b-9c9e-8bc08f0b89c9"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{delivery}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="489" y="0" width="62" height="19" uuid="3f9cc4af-2ef0-4b3f-80c1-8a27039f8e61">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="64297ef6-7979-4d23-b8eb-38107b2c1ff3"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{referenceNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="552" y="0" width="101" height="39" uuid="640ec72d-d129-4913-9caa-fbfefe2766be">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="39aca49b-76c4-4083-ae9d-789330b96d44"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{profileName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="653" y="0" width="66" height="30" uuid="3823c324-23bf-4c4e-9472-a3ec3f432e30">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f24b3010-6f13-4220-a117-21b4aee8594a"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{checkout}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="177"/>
+	</lastPageFooter>
+</jasperReport>
