@@ -22,7 +22,7 @@ import com.backend.warehouse.entity.NotificationType;
 import com.backend.warehouse.scheduler.CheckoutReminderJob;
 import com.backend.warehouse.service.NotificationService;
 
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:3000", "https://webapp-warehouse3d.netlify.app"}, maxAge = 3600)
 @RestController
 @RequestMapping("/api/notifications")
 public class NotificationController {

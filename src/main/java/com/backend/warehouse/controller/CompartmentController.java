@@ -24,7 +24,7 @@ import com.backend.warehouse.payload.request.ItemRequest;
 import com.backend.warehouse.payload.response.MessageResponse;
 import com.backend.warehouse.service.CompartmentService;
 
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:3000", "https://webapp-warehouse3d.netlify.app"}, maxAge = 3600)
 @RestController
 @RequestMapping("/api/compartments")
 public class CompartmentController {

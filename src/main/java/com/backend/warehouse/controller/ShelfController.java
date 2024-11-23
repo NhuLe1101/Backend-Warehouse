@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.backend.warehouse.entity.Shelf;
 import com.backend.warehouse.service.ShelfService;
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:3000", "https://webapp-warehouse3d.netlify.app"}, maxAge = 3600)
 @RestController
 @RequestMapping("/api/shelf")
 public class ShelfController {
