@@ -71,7 +71,7 @@ public class ItemServiceImpl implements ItemService{
     }
 	
 	@Override
-	public List<ItemResponse> getItemsByStatus() {
+	public List<ItemResponse> getListProducts() {
 		List<Item> items = itemRepository.findByStatus("Đang lưu kho");
 		List<ItemResponse> itemDTOs = items.stream().map(item -> 
         new ItemResponse(
@@ -140,7 +140,7 @@ public class ItemServiceImpl implements ItemService{
 //	}
 	
 	@Override
-	public List<ItemResponse> getItemByName(String input) {
+	public List<ItemResponse> searchItem(String input) {
 	    List<ItemResponse> itemDTOs;
 
 	    try {

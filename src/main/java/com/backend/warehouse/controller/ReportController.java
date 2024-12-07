@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.warehouse.payload.request.BookingReport;
 import com.backend.warehouse.payload.request.BookingReportDataClient;
+import com.backend.warehouse.payload.request.BookingReportDataClient_IdString;
 import com.backend.warehouse.payload.request.DeliveryReport;
 
 import java.io.FileNotFoundException;
@@ -93,9 +94,27 @@ public class ReportController {
         }
     }
     
+	public Long parseId(String formattedId) {
+	    if (formattedId.startsWith("BK")) {
+	        String numericPart = formattedId.substring(2); 
+	        return Long.parseLong(numericPart);
+	    } else {
+	        throw new IllegalArgumentException("Invalid formatted ID: " + formattedId);
+	    }
+	}
+    
     @PostMapping("/generate-pdf-booking")
-    public ResponseEntity<byte[]> generatePdfBooking(@RequestBody BookingReportDataClient bookingReportData) {
+    public ResponseEntity<byte[]> generatePdfBooking(@RequestBody BookingReportDataClient_IdString bookingReportDataIdString) {
         try {
+        	
+        	BookingReportDataClient bookingReportData = new BookingReportDataClient(
+        			parseId(bookingReportDataIdString.getId()),
+        			bookingReportDataIdString.getCustomerEmail(),
+        			bookingReportDataIdString.getCustomerName(),
+        			bookingReportDataIdString.getNumberphone(),
+        			bookingReportDataIdString.getExcelFile(),
+        			bookingReportDataIdString.getReferenceNo()
+        	);
         	
             byte[] pdfContent = reportService.generatePdfBooking(bookingReportData);
 

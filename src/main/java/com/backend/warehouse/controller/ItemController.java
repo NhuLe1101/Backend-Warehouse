@@ -52,9 +52,9 @@ public class ItemController {
         return ResponseEntity.ok(items);
     }
     
-    @GetMapping("/byStatus")
-    public ResponseEntity<List<ItemResponse>> getProductsByStatus() {
-        List<ItemResponse> items = itemService.getItemsByStatus();
+    @GetMapping("/get-list-products")
+    public ResponseEntity<List<ItemResponse>> getListProducts() {
+        List<ItemResponse> items = itemService.getListProducts();
         return ResponseEntity.ok(items);
     }
     
@@ -99,10 +99,10 @@ public class ItemController {
   }
     
     @GetMapping("/search")
-	public ResponseEntity<List<ItemResponse>> searchItemsByName(
-      @RequestParam String name
+	public ResponseEntity<List<ItemResponse>> searchItem(
+      @RequestParam String data
 	) {
-    	  List<ItemResponse> items = itemService.getItemByName(name);
+    	  List<ItemResponse> items = itemService.searchItem(data);
     	  return ResponseEntity.ok(items);
   }
     

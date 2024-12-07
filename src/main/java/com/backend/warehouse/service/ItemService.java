@@ -12,9 +12,9 @@ import io.jsonwebtoken.io.IOException;
 public interface ItemService {
 	List<ItemResponse> getAllProducts();
 	
-	List<ItemResponse> getItemByName(String name);
+	List<ItemResponse> searchItem(String name);
 	
-	List<ItemResponse> getItemsByStatus();
+	List<ItemResponse> getListProducts();
 	
 	List<Compartment> getCompartmentsByItemId(String itemId);
 
